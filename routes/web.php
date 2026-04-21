@@ -25,8 +25,15 @@ Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 
 // ================== Legal (standalone) ==================
 
-Route::get('/privacy-policy', fn() => view('backend.page.privacy-policy'))->name('privacy');
-Route::get('/terms-of-service', fn() => view('backend.page.terms'))->name('terms');
+Route::get('/privacy-policy', function () {
+    $page = \App\Models\Page::where('slug', 'privacy-policy')->firstOrFail();
+    return view('backend.page.privacy-policy', compact('page'));
+})->name('privacy');
+
+Route::get('/terms-of-service', function () {
+    $page = \App\Models\Page::where('slug', 'terms-of-service')->firstOrFail();
+    return view('backend.page.terms', compact('page'));
+})->name('terms');
 
 
 // ================== Admin ==================
