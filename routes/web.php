@@ -11,3 +11,6 @@ Route::get('/', function () {
 
 
 //============= Frontend ===============
+Route::get('/services', function () {
+    return view('frontend.pages.services');
+});
