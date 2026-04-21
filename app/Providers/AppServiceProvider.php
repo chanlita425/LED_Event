@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\MenuGroup;
+use App\Models\Page;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +25,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::anonymousComponentPath(resource_path('views/backend/components'));
+
+        View::composer('backend.components.sidebar', function ($view) {
+            $sidebarMenuGroups = MenuGroup::where('is_active', true)
+                ->orderBy('sort_order')
+                ->with(['menus' => function ($q) {
+                    $q->where('is_active', true)->orderBy('sort_order');
+                }])
+                ->get();
+
+            $legalPages = Page::whereIn('slug', ['privacy-policy', 'terms-of-service'])
+                ->where('is_active', true)
+                ->get()
+                ->keyBy('slug');
+
+            $view->with('sidebarMenuGroups', $sidebarMenuGroups)
+                 ->with('title',       Setting::get('general', 'site_name') ?? 'LED Events')
+                 ->with('subtitle',    Setting::get('general', 'site_subtitle') ?? 'Admin Panel')
+                 ->with('logo',        Setting::get('general', 'logo'))
+                 ->with('legalPages',  $legalPages);
+        });
     }
 }

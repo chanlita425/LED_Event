@@ -3,63 +3,78 @@
 namespace App\Http\Controllers\Admin\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Models\Menu;
+use App\Models\MenuGroup;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $menus = Menu::with('group')->orderBy('sort_order')->paginate(20);
+
+        return view('backend.page.menus.index', compact('menus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $groups = MenuGroup::where('is_active', true)->orderBy('sort_order')->get();
+
+        return view('backend.page.menus.create', compact('groups'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'menu_group_id' => 'nullable|exists:menu_groups,id',
+            'slug'          => 'required|string|max:255|unique:menus,slug',
+            'name_en'       => 'required|string|max:255',
+            'name_km'       => 'required|string|max:255',
+            'route'         => 'nullable|string|max:255',
+            'sort_order'    => 'nullable|integer',
+            'is_active'     => 'boolean',
+        ]);
+
+        $data['is_active'] = $request->boolean('is_active', true);
+
+        Menu::create($data);
+
+        return redirect()->route('admin.menus.index')->with('success', 'Menu item created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $menu   = Menu::findOrFail($id);
+        $groups = MenuGroup::where('is_active', true)->orderBy('sort_order')->get();
+
+        return view('backend.page.menus.edit', compact('menu', 'groups'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $menu = Menu::findOrFail($id);
+
+        $data = $request->validate([
+            'menu_group_id' => 'nullable|exists:menu_groups,id',
+            'slug'          => 'required|string|max:255|unique:menus,slug,' . $menu->id,
+            'name_en'       => 'required|string|max:255',
+            'name_km'       => 'required|string|max:255',
+            'route'         => 'nullable|string|max:255',
+            'sort_order'    => 'nullable|integer',
+            'is_active'     => 'boolean',
+        ]);
+
+        $data['is_active'] = $request->boolean('is_active');
+
+        $menu->update($data);
+
+        return redirect()->route('admin.menus.index')->with('success', 'Menu item updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        Menu::findOrFail($id)->delete();
+
+        return redirect()->route('admin.menus.index')->with('success', 'Menu item deleted.');
     }
 }

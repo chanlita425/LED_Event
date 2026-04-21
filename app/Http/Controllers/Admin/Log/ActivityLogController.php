@@ -3,63 +3,40 @@
 namespace App\Http\Controllers\Admin\Log;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $logs = ActivityLog::with('user')
+            ->when($request->filled('action'), fn($q) => $q->where('action', $request->action))
+            ->when($request->filled('user_id'), fn($q) => $q->where('user_id', $request->user_id))
+            ->latest('created_at')
+            ->paginate(30);
+
+        return view('backend.page.logs.index', compact('logs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $log = ActivityLog::with('user')->findOrFail($id);
+
+        return view('backend.page.logs.show', compact('log'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        ActivityLog::findOrFail($id)->delete();
+
+        return redirect()->route('admin.activity-logs.index')->with('success', 'Log deleted.');
+    }
+
+    public function clear()
+    {
+        ActivityLog::truncate();
+
+        return redirect()->route('admin.activity-logs.index')->with('success', 'All logs cleared.');
     }
 }

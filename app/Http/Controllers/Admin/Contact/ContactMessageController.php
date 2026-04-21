@@ -3,63 +3,46 @@
 namespace App\Http\Controllers\Admin\Contact;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $messages = ContactMessage::latest('created_at')->paginate(20);
+
+        return view('backend.page.contact.messages', compact('messages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $message = ContactMessage::findOrFail($id);
+
+        if ($message->status === 'new') {
+            $message->update(['status' => 'read']);
+        }
+
+        return view('backend.page.contact.message-show', compact('message'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $message = ContactMessage::findOrFail($id);
+
+        $request->validate([
+            'status' => 'required|in:new,read,replied,archived',
+        ]);
+
+        $message->update(['status' => $request->status]);
+
+        return redirect()->back()->with('success', 'Status updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        ContactMessage::findOrFail($id)->delete();
+
+        return redirect()->route('admin.contact-messages.index')->with('success', 'Message deleted.');
     }
 }
