@@ -111,3 +111,12 @@ Route::get('/why-us', function () {
 Route::get('/blog', function () {
     return view('frontend.pages.blog');
 })->name('blog');
+Route::get('/projects', function () {
+    return view('frontend.pages.projects');
+})->name('projects');
+Route::get('/products', function () {
+    return view('frontend.pages.products');
+})->name('products');
+Route::get('/media', function () {
+    return view('frontend.pages.media');
+})->name('media');
