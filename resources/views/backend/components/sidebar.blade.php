@@ -1,17 +1,23 @@
+
+
+
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gray-900 border-r border-orange-500/10 flex flex-col z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
 
     {{-- Logo --}}
     <div class="flex items-center justify-between px-5 py-5 border-b border-orange-500/10">
         <div class="flex items-center gap-3">
-            @if ($logo)
-                <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="h-9 w-auto object-contain flex-shrink-0">
+              @if ($logo)
+                <img src="{{ asset('storage/' . $setting->value_en) }}"
+                        class="h-9 w-auto object-contain">
             @else
-                <div class="w-9 h-9 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div class="w-9 h-9 bg-orange-500 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                        <path d="M8 21h8M12 17v4"/>
                     </svg>
                 </div>
             @endif
+
                 <div>
                     <p class="text-sm font-semibold text-white leading-tight">
                         {{ $title }}

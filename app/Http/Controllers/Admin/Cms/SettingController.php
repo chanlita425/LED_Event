@@ -9,54 +9,80 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
- 
-    public function index()
-{
-    $settings = Setting::orderBy('group_name')
-        ->orderBy('sort_order')
-        ->get()
-        ->groupBy('group_name');
-
-    return view('backend.page.cms.settings.index', compact('settings'));
-}
-
-    public function create()
+    // ─────────────────────────────
+    // INDEX
+    // ─────────────────────────────
+    public function index(Request $request)
     {
-        return view('backend.page.settings.create');
-    }
+        $query = Setting::query();
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'group_name' => 'required|string|max:255',
-            'key_name'   => 'required|string|max:255',
-            'value_en'   => 'nullable|string',
-            'value_km'   => 'nullable|string',
-            'type'       => 'nullable|string|max:255',
-            'sort_order' => 'nullable|integer',
-            'is_active'  => 'boolean',
-            'file'       => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
-        ]);
-
-        if ($request->hasFile('file')) {
-            $data['value_en'] = $request->file('file')->store('settings', 'public');
-            $data['type'] = 'image';
+        // FILTER: group
+        if ($request->filled('group')) {
+            $query->where('group_name', $request->group);
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
+        // FILTER: key name search
+        if ($request->filled('key')) {
+            $query->where('key_name', 'like', '%' . $request->key . '%');
+        }
 
-        Setting::create($data);
+        // FILTER: type
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting created.');
+        // FILTER: status
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status);
+        }
+
+        $settings = $query->orderBy('group_name')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('group_name');
+
+        // All groups for the filter dropdown (unfiltered)
+        $allGroups = Setting::select('group_name')->distinct()->orderBy('group_name')->pluck('group_name');
+
+        return view('backend.page.cms.settings.index', compact('settings', 'allGroups'));
     }
 
-    public function edit(string $id)
+    // ─────────────────────────────
+    // QUICK INLINE UPDATE
+    // ─────────────────────────────
+    public function quickUpdate(Request $request, string $id)
     {
         $setting = Setting::findOrFail($id);
 
-        return view('backend.page.settings.edit', compact('setting'));
+        $request->validate([
+            'value_en' => 'nullable|string',
+            'value_km' => 'nullable|string',
+            'file'     => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('file')) {
+            // Delete old image
+            if ($setting->type === 'image' && $setting->value_en) {
+                Storage::disk('public')->delete($setting->value_en);
+            }
+
+            $setting->update([
+                'value_en' => $request->file('file')->store('settings', 'public'),
+                'type'     => 'image',
+            ]);
+        } else {
+            $setting->update([
+                'value_en' => $request->value_en,
+                'value_km' => $request->value_km,
+            ]);
+        }
+
+        return back()->with('success', 'Setting updated successfully.');
     }
 
+    // ─────────────────────────────
+    // FULL UPDATE (EDIT PAGE)
+    // ─────────────────────────────
     public function update(Request $request, string $id)
     {
         $setting = Setting::findOrFail($id);
@@ -73,9 +99,10 @@ class SettingController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            if ($setting->value_en && $setting->type === 'image') {
+            if ($setting->type === 'image' && $setting->value_en) {
                 Storage::disk('public')->delete($setting->value_en);
             }
+
             $data['value_en'] = $request->file('file')->store('settings', 'public');
             $data['type'] = 'image';
         }
@@ -84,19 +111,7 @@ class SettingController extends Controller
 
         $setting->update($data);
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting updated.');
-    }
-
-    public function destroy(string $id)
-    {
-        $setting = Setting::findOrFail($id);
-
-        if ($setting->type === 'image' && $setting->value_en) {
-            Storage::disk('public')->delete($setting->value_en);
-        }
-
-        $setting->delete();
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting deleted.');
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Setting updated successfully.');
     }
 }

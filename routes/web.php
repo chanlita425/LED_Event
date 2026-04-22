@@ -56,6 +56,16 @@ Route::prefix('admin')
     Route::resource('section-items', SectionItemController::class);
     Route::resource('media-files',   MediaFileController::class)->only(['index', 'store', 'show', 'destroy']);
     Route::resource('settings',      SettingController::class);
+    // Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
+    //         ->name('admin.settings.quick-update');
+
+     // ── SETTINGS ──────────────────────────
+    Route::resource('settings', SettingController::class);
+
+    Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
+        ->name('settings.quick-update');
+
+
 
     // ── Users ─────────────────────────────────────────────
     Route::resource('users', UserController::class);
