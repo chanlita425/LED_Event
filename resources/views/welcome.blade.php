@@ -1,10 +1,11 @@
 @extends('frontend.layouts.main')
 
+
 @section('content')
     {{-- HERO SECTION --}}
     <div class="relative h-[100vh] flex items-center justify-center
             bg-cover bg-center"
-        style="background-image: url('{{ asset('images/hero-section.jpg') }}');" >
+        style="background-image: url('{{ asset('images/hero-section.jpg') }}');">
 
         <!-- DARK OVERLAY -->
         <div class="absolute inset-0 bg-black/50"></div>
@@ -12,7 +13,7 @@
         <!-- CONTENT -->
         <div class="relative z-10 flex flex-col items-center text-white">
 
-            <img src="{{ asset('images/logo.png') }}" alt="logo" class="w-10" >
+            <img src="{{ asset('images/logo.png') }}" alt="logo" class="w-10">
 
             <h1 class="text-[120px] uppercase">
                 <span class="font-bold">led</span> events
@@ -23,14 +24,17 @@
 
             <div class="my-5 flex gap-10">
                 <button class="border w-[183px] h-[44px] cursor-pointer">Explore More</button>
-                <button class="bg-black w-[183px] h-[44px] cursor-pointer">Contact Us</button>
+                <a href="/contact"
+                    class="bg-black w-[183px] h-[44px] cursor-pointer flex items-center justify-center">Contact Us</a>
             </div>
 
         </div>
 
     </div>
 
+    {{-- why us --}}
     <div class="bg-[#05004F]">
+
         {{-- led event --}}
         <div class="max-w-6xl mx-auto ">
             <div id="why-us" class="pt-20 grid grid-cols-3 items-center ">
@@ -101,14 +105,19 @@
 
 
         {{-- carousel --}}
-        <div class="grid grid-cols-3 gap-5 max-w-6xl mx-auto mt-20">
+        <div class="grid grid-cols-3 gap-5 max-w-6xl mx-auto mt-20 relative">
+            <img src="{{ asset('icons/bleach.png') }}" alt="left-arrow"
+                class="absolute -left-20 top-1/2 -translate-y-1/2 cursor-pointer w-10 h-auto rotate-270 invert brightness-0">
+            <img src="{{ asset('icons/bleach.png') }}" alt="right-arrow"
+                class="absolute -right-20 top-1/2 -translate-y-1/2 cursor-pointer w-10 h-auto rotate-90 invert brightness-0">
             {{-- item 1 --}}
             <div class="p-5 border rounded-md">
                 <img src="{{ asset('images/image1.png') }}" alt="image1" class="rounded-md w-full h-60 object-cover">
                 <div class="p-5 flex flex-col gap-3">
                     <p>LED Screen Rental</p>
-                    <p>We provide high-resolution LED screen rental in Cambodia for indoor and outdoor events.</p>
-                    <button class="border">Read More</button>
+                    <p class="line-clamp-3">We provide high-resolution LED screen rental in Cambodia for indoor and outdoor
+                        events.</p>
+                    <button class="border cursor-pointer">Read More</button>
                 </div>
             </div>
 
@@ -117,8 +126,9 @@
                 <img src="{{ asset('images/image2.png') }}" alt="image2" class="rounded-md w-full h-60 object-cover">
                 <div class="p-5 flex flex-col gap-3">
                     <p>LED Screen Rental</p>
-                    <p>We provide high-resolution LED screen rental in Cambodia for indoor and outdoor events.</p>
-                    <button class="border">Read More</button>
+                    <p class="line-clamp-3">We provide high-resolution LED screen rental in Cambodia for indoor and outdoor
+                        events.</p>
+                    <button class="border cursor-pointer">Read More</button>
                 </div>
             </div>
 
@@ -127,11 +137,15 @@
                 <img src="{{ asset('images/image3.png') }}" alt="image3" class="rounded-md w-full h-60 object-cover">
                 <div class="p-5 flex flex-col gap-3">
                     <p>LED Screen Rental</p>
-                    <p>We provide high-resolution LED screen rental in Cambodia for indoor and outdoor events.</p>
-                    <button class="border">Read More</button>
+                    <p class="line-clamp-3">We provide high-resolution LED screen rental in Cambodia for indoor and outdoor
+                        events. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias maxime incidunt non
+                        exercitationem doloribus laudantium nulla accusantium officiis odio nobis! Atque possimus voluptate
+                        unde voluptatem fugiat, impedit ad fuga repudiandae.</p>
+                    <button class="border cursor-pointer">Read More</button>
                 </div>
             </div>
         </div>
+
 
 
         {{-- feature project --}}
@@ -237,13 +251,13 @@
                         laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet</p>
                 </div>
             </div>
-            <div class="grid grid-cols-3 gap-10 mt-10 mb-20">
+            <div class="grid grid-cols-3 gap-10 mt-10 pb-50">
                 <div>
                     <p>01</p>
                     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                         laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet</p>
                 </div>
-                <div >
+                <div>
                     <p>01</p>
                     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
                         laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet</p>

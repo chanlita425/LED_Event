@@ -61,36 +61,36 @@
                         <div
                             class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                             <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                <a href="#why-us" class="hover:opacity-70">Why Us</a>
-                                <a href="#services" class="hover:opacity-70">Our
+                                <a href="{{ route('home') }}#why-us" class="hover:opacity-70">Why Us</a>
+                                <a href="{{ route('home') }}#services" class="hover:opacity-70">Our
                                     Service</a>
-                                    <a href="#features" class="hover:opacity-70">Features</a>
+                                    <a href="{{ route('home') }}#features" class="hover:opacity-70">Features</a>
 
-                                <a href="#how-we-work" class="hover:opacity-70">How We
+                                <a href="{{ route('home') }}#how-we-work" class="hover:opacity-70">How We
                                     Work</a>
                             </div>
                         </div>
                     </li>
                     <!-- OTHER LINKS -->
                     <li class="group">
-                        <a class="nav-link" href="/services">services</a>
+                        <a class="nav-link" href="{{ route('services') }}">services</a>
                         <div
                             class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                             <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                <a href="/why-us" class="hover:opacity-70">LED Screen Retail</a>
-                                <a href="/services" class="hover:opacity-70">Stage Rental</a>
+                                <a href="{{ route('home') }}#why-us" class="hover:opacity-70">LED Screen Retail</a>
+                                <a href="{{ route('home') }}#services" class="hover:opacity-70">Stage Rental</a>
                                 <a href="#" class="hover:opacity-70">Sound System</a>
                                 <a href="#" class="hover:opacity-70">Lighting Production</a>
                                 <a href="#" class="hover:opacity-70">Full Event Production</a>
                             </div>
                         </div>
                     </li>
-                    <li class="group"><a class="nav-link" href="/projects">projects</a>
+                    <li class="group"><a class="nav-link" >projects</a>
                         <div
                             class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                             <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                <a href="/why-us" class="hover:opacity-70">All projects</a>
-                                <a href="/services" class="hover:opacity-70">Concert Events</a>
+                                <a href="{{ route('home') }}#why-us" class="hover:opacity-70">All projects</a>
+                                <a href="{{ route('home') }}#services" class="hover:opacity-70">Concert Events</a>
                                 <a href="#" class="hover:opacity-70">Coporate Events</a>
                                 <a href="#" class="hover:opacity-70">Festival Events</a>
                                 <a href="#" class="hover:opacity-70">Outdoor Events</a>

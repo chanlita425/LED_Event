@@ -15,6 +15,7 @@
 
 <body>
     <div class="bg-black ">
+        
         <div class="max-w-6xl mx-auto grid grid-cols-3 gap-5 my-20">
             {{-- left --}}
             <div>
@@ -32,8 +33,8 @@
             </div>
             {{-- center --}}
             <div class="flex flex-col items-center ">
-                <p>Company</p>
-                <ul class="mt-5">
+                <p class="text-[20px] font-semibold">Company</p>
+                <ul class="flex flex-col mt-5 gap-4">
                     <li><a href="">Home</a></li>
                     <li><a href="">Services</a></li>
                     <li><a href="">Projects</a></li>
@@ -46,11 +47,62 @@
             </div>
             {{-- right --}}
             <div>
-                <p>Contact</p>
-                <div class="mt-5">
-                    <p><i class="fa-solid fa-location-dot"></i> 123 Main Street, City, Country</p>
-                    <p><i class="fa-solid fa-phone"></i> +1 (123) 456-7890</p>
-                    <p><i class="fa-solid fa-envelope"></i> info@gmail.com</p>
+                <!-- Title -->
+                <p class="text-[20px] font-semibold">Contact</p>
+
+                <!-- Content -->
+                <div class="flex flex-col mt-5 gap-4">
+
+                    <!-- Address -->
+                    <p class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot"></i>
+                        123 Main Street, City, Country
+                    </p>
+
+                    <!-- Phone -->
+                    <p class="flex items-center gap-2">
+                        <i class="fa-solid fa-phone"></i>
+                        +1 (123) 456-7890
+                    </p>
+
+                    <!-- Email -->
+                    <p class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i>
+                        info@gmail.com
+                    </p>
+
+                    <!-- Social -->
+                    <div class="mt-4">
+                        <p class="mb-2">Follow us on</p>
+
+                        <div class="flex items-center gap-4">
+                            <a href="#"
+                                class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                <i class="fa-brands fa-youtube text-sm text-black"></i>
+                            </a>
+
+                            <a href="#"
+                                class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                <i class="fa-brands fa-facebook-f text-sm text-black"></i>
+                            </a>
+
+                            <a href="#"
+                                class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                <i class="fa-brands fa-tiktok text-sm text-black"></i>
+                            </a>
+
+                            <a href="#"
+                                class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                <i class="fa-brands fa-instagram text-sm text-black"></i>
+                            </a>
+
+                            <a href="#"
+                                class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                <i class="fa-brands fa-telegram text-sm text-black"></i>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

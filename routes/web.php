@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 
 // ================== Root ==================
 
-Route::get('/admin', fn() => redirect()->route('admin.dashboard'))->name('home');
+Route::get('/admin', fn() => redirect()->route('admin.dashboard'))->name('admin.home');
 
 // ================== Logout ==================
 
@@ -98,10 +98,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //============= Frontend ===============
 Route::get("/", function () {
     return view('welcome');
-});
+})->name('home');
 Route::get('/services', function () {
     return view('frontend.pages.services');
-});
+})->name('services');
 Route::get('/contact', function () {
     return view('frontend.pages.contact');
-});
+})->name('contact');
+Route::get('/why-us', function () {
+    return view('frontend.pages.whyUs');
+})->name('why-us');
+Route::get('/blog', function () {
+    return view('frontend.pages.blog');
+})->name('blog');

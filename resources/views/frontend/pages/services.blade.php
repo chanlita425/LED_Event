@@ -30,4 +30,14 @@
         </div>
 
     </div>
+
+    <div>
+        <div class="max-w-6xl mx-auto">
+            {{-- 1 --}}
+            <div>
+                
+            </div>
+
+        </div>
+    </div>
 @endsection
