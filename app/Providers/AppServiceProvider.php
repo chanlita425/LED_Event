@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Models\MenuGroup;
 use App\Models\Page;
-use App\Models\Setting;
+use App\Models\Cms\Setting;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -40,10 +40,10 @@ class AppServiceProvider extends ServiceProvider
                 ->keyBy('slug');
 
             $view->with('sidebarMenuGroups', $sidebarMenuGroups)
-                 ->with('title',       Setting::get('general', 'site_name') ?? 'LED Events')
-                 ->with('subtitle',    Setting::get('general', 'site_subtitle') ?? 'Admin Panel')
-                 ->with('logo',        Setting::get('general', 'logo'))
-                 ->with('legalPages',  $legalPages);
+                ->with('title',       Setting::getValue('sidebar', 'title') ?? 'LED Events')
+                ->with('subtitle',    Setting::getValue('sidebar', 'subtitle') ?? 'Admin Panel')
+                ->with('logo',        Setting::getValue('led', 'logo'))
+                ->with('legalPages',  $legalPages);
         });
     }
 }

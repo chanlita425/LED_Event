@@ -7,7 +7,7 @@
     <div class="flex items-center justify-between px-5 py-5 border-b border-orange-500/10">
         <div class="flex items-center gap-3">
               @if ($logo)
-                <img src="{{ asset('storage/' . $setting->value_en) }}"
+                <img src="{{ asset('storage/' . $logo) }}"
                         class="h-9 w-auto object-contain">
             @else
                 <div class="w-9 h-9 bg-orange-500 rounded-lg flex items-center justify-center">
