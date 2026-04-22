@@ -8,23 +8,23 @@ use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller
 {
-    public function index(Request $request)
-    {
-        $logs = ActivityLog::with('user')
-            ->when($request->filled('action'), fn($q) => $q->where('action', $request->action))
-            ->when($request->filled('user_id'), fn($q) => $q->where('user_id', $request->user_id))
-            ->latest('created_at')
-            ->paginate(30);
+    // public function index(Request $request)
+    // {
+    //     $logs = ActivityLog::with('user')
+    //         ->when($request->filled('action'), fn($q) => $q->where('action', $request->action))
+    //         ->when($request->filled('user_id'), fn($q) => $q->where('user_id', $request->user_id))
+    //         ->latest('created_at')
+    //         ->paginate(30);
 
-        return view('backend.page.logs.index', compact('logs'));
-    }
+    //     return view('backend.page.logs.index', compact('logs'));
+    // }
 
-    public function show(string $id)
-    {
-        $log = ActivityLog::with('user')->findOrFail($id);
+    // public function show(string $id)
+    // {
+    //     $log = ActivityLog::with('user')->findOrFail($id);
 
-        return view('backend.page.logs.show', compact('log'));
-    }
+    //     return view('backend.page.logs.show', compact('log'));
+    // }
 
     public function destroy(string $id)
     {

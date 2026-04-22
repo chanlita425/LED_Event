@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Auth\SessionController;
+// use App\Http\Controllers\Admin\Auth\ProfileController;
 use App\Http\Controllers\Admin\Auth\UserController;
 use App\Http\Controllers\Admin\Cms\MenuController;
 use App\Http\Controllers\Admin\Cms\MenuGroupController;
@@ -25,22 +26,24 @@ Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 
 // ================== Legal (standalone) ==================
 
-Route::get('/privacy-policy', function () {
-    $page = \App\Models\Page::where('slug', 'privacy-policy')->firstOrFail();
-    return view('backend.page.privacy-policy', compact('page'));
-})->name('privacy');
+    Route::get('/privacy-policy', function () {
+        $page = \App\Models\Page::where('slug', 'privacy-policy')->firstOrFail();
+        return view('backend.page.privacy-policy', compact('page'));
+    })->name('privacy');
 
-Route::get('/terms-of-service', function () {
-    $page = \App\Models\Page::where('slug', 'terms-of-service')->firstOrFail();
-    return view('backend.page.terms', compact('page'));
-})->name('terms');
-
+    Route::get('/terms-of-service', function () {
+        $page = \App\Models\Page::where('slug', 'terms-of-service')->firstOrFail();
+        return view('backend.page.terms', compact('page'));
+    })->name('terms');
 
 // ================== Admin ==================
 
 Route::get('/', fn() => redirect()->route('admin.dashboard'))->name('home');
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth'])
+    ->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -56,6 +59,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // ── Users ─────────────────────────────────────────────
     Route::resource('users', UserController::class);
+    Route::resource('sessions', SessionController::class);
 
     // ── Contact ───────────────────────────────────────────
     Route::get('/contact-info',    [ContactInfoController::class, 'index'])->name('contact-info.index');

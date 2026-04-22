@@ -33,17 +33,40 @@
     {{-- Nav --}}
     <nav class="flex-1 overflow-y-auto py-4 space-y-1 scrollbar-thin">
 
-        {{-- Dashboard --}}
+        {{-- MAIN --}}
         <x-admin.nav-label>Main</x-admin.nav-label>
         <x-admin.nav-item route="admin.dashboard" icon="grid">Dashboard</x-admin.nav-item>
 
-        {{-- Dynamic menu groups from DB --}}
-        @foreach ($sidebarMenuGroups as $group)
-            <x-admin.nav-label>{{ $group->name_en }}</x-admin.nav-label>
-            @foreach ($group->menus as $menu)
-                <x-admin.nav-item route="{{ $menu->route }}">{{ $menu->name_en }}</x-admin.nav-item>
-            @endforeach
-        @endforeach
+        {{-- AUTH SYSTEM --}}
+        <x-admin.nav-label>Auth System</x-admin.nav-label>
+
+        <x-admin.nav-item route="admin.users.index">Users</x-admin.nav-item>
+        {{-- <x-admin.nav-item route="admin.sessions.index">Sessions</x-admin.nav-item> --}}
+
+        {{-- CMS SYSTEM --}}
+        <x-admin.nav-label>CMS System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.pages.index">Pages</x-admin.nav-item>
+        <x-admin.nav-item route="admin.page-sections.index">Page Sections</x-admin.nav-item>
+        <x-admin.nav-item route="admin.section-items.index">Section Items</x-admin.nav-item>
+        <x-admin.nav-item route="admin.settings.index">Settings</x-admin.nav-item>
+
+        {{-- MEDIA SYSTEM --}}
+        <x-admin.nav-label>Media System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.media.index">Media Files</x-admin.nav-item>
+
+        {{-- NAVIGATION SYSTEM --}}
+        <x-admin.nav-label>Navigation System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.menu-groups.index">Menu Groups</x-admin.nav-item>
+        <x-admin.nav-item route="admin.menus.index">Menus</x-admin.nav-item>
+
+        {{-- CONTACT SYSTEM --}}
+        <x-admin.nav-label>Contact System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.contact-messages.index">Contact Messages</x-admin.nav-item>
+        <x-admin.nav-item route="admin.contact-info.index">Contact Info</x-admin.nav-item>
+
+        {{-- TRACKING SYSTEM --}}
+        <x-admin.nav-label>Tracking System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.activity-logs.index">Activity Logs</x-admin.nav-item>
 
         {{-- Legal --}}
         <x-admin.nav-label>Legal</x-admin.nav-label>

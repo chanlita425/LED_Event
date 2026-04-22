@@ -29,6 +29,8 @@ class SessionController extends Controller
         }
 
         $request->session()->regenerate();
+        cookie()->queue('last_email', $request->email, 60 * 24);
+
 
         return redirect()->intended(route('admin.dashboard'));
     }

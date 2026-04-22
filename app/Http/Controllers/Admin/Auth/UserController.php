@@ -14,12 +14,12 @@ class UserController extends Controller
     {
         $users = User::latest()->paginate(15);
 
-        return view('backend.page.users.index', compact('users'));
+        return view('backend.page.auth.users.user', compact('users'));
     }
 
     public function create()
     {
-        return view('backend.page.users.create');
+        return view('backend.page.auth.users.create');
     }
 
     public function store(Request $request)
@@ -32,36 +32,35 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
+        $data['role'] = 'Admin';
+        $data['status'] = 'active';
+
         User::create($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created.');
-    }
-
-    public function show(string $id)
-    {
-        $user = User::findOrFail($id);
-
-        return view('backend.page.users.show', compact('user'));
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User created.');
     }
 
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
 
-        return view('backend.page.users.edit', compact('user'));
+        return view('backend.page.auth.users.edit', compact('user'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
-            'password' => ['nullable', 'confirmed', Password::min(6)],
+            'role'     => 'required|string',
+            'status'   => 'required|string',
+            'password' => ['nullable', 'confirmed'],
         ]);
 
-        if (filled($data['password'])) {
+        if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
@@ -69,7 +68,8 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated.');
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User updated successfully.');
     }
 
     public function destroy(string $id)
