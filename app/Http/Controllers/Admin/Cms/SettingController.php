@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
+use App\Models\Cms\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+ 
     public function index()
-    {
-        $settings = Setting::orderBy('group_name')->orderBy('sort_order')->get()->groupBy('group_name');
+{
+    $settings = Setting::orderBy('group_name')
+        ->orderBy('sort_order')
+        ->get()
+        ->groupBy('group_name');
 
-        return view('backend.page.settings.index', compact('settings'));
-    }
+    return view('backend.page.cms.settings.index', compact('settings'));
+}
 
     public function create()
     {

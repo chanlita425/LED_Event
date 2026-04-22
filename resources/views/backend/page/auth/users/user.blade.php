@@ -95,11 +95,12 @@
 
         </table>
 
-        {{-- DELETE MODAL --}}
-        @include('backend.page.auth.users.destroy')
-
+    
 
     </div>
+
+        {{-- DELETE MODAL --}}
+        @include('backend.components.destroy')
             
     {{-- PAGINATION --}}
     <div class="mt-4">

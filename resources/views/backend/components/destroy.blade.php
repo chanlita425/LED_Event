@@ -1,14 +1,14 @@
 <div id="deleteModal"
      class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
 
-    <div class="bg-gray-900 rounded-xl p-6 w-full max-w-md border border-gray-800">
+    <div class="bg-gray-900 rounded-xl p-4  w-1/2 border border-gray-800">
 
         <h2 class="text-lg font-semibold text-white mb-3">
             Confirm Delete
         </h2>
 
         <p id="deleteMessage" class="text-sm text-gray-400 mb-6">
-            Are you sure you want to delete this user?
+            Are you sure?
         </p>
 
         <form id="deleteForm" method="POST">
@@ -37,14 +37,11 @@
 @push('scripts')
 <script>
     function openDeleteModal(actionUrl, name) {
-        const modal = document.getElementById('deleteModal');
-        const form = document.getElementById('deleteForm');
-
-        form.action = actionUrl;
-
+        document.getElementById('deleteForm').action = actionUrl;
         document.getElementById('deleteMessage').innerText =
             `Are you sure you want to delete "${name}"?`;
 
+        const modal = document.getElementById('deleteModal');
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     }
@@ -55,11 +52,9 @@
         modal.classList.remove('flex');
     }
 
-    window.onclick = function(e) {
+    window.addEventListener('click', function (e) {
         const modal = document.getElementById('deleteModal');
-        if (e.target === modal) {
-            closeDeleteModal();
-        }
-    }
+        if (e.target === modal) closeDeleteModal();
+    });
 </script>
 @endpush

@@ -55,7 +55,7 @@ Route::prefix('admin')
     Route::resource('page-sections', PageSectionController::class);
     Route::resource('section-items', SectionItemController::class);
     Route::resource('media-files',   MediaFileController::class)->only(['index', 'store', 'show', 'destroy']);
-    Route::resource('settings',      SettingController::class)->except(['show']);
+    Route::resource('settings',      SettingController::class);
 
     // ── Users ─────────────────────────────────────────────
     Route::resource('users', UserController::class);
