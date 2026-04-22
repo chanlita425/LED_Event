@@ -12,7 +12,7 @@ class MenuGroupController extends Controller
     {
         $groups = MenuGroup::orderBy('sort_order')->paginate(20);
 
-        return view('backend.page.menu-groups.index', compact('groups'));
+        return view('backend.page.cms.menu-groups.index', compact('groups'));
     }
 
     public function create()

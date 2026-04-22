@@ -71,8 +71,8 @@
         <x-admin.nav-item route="admin.contact-info.index">Contact Info</x-admin.nav-item>
 
         {{-- TRACKING SYSTEM --}}
-        <x-admin.nav-label>Tracking System</x-admin.nav-label>
-        <x-admin.nav-item route="admin.activity-logs.index">Activity Logs</x-admin.nav-item>
+        {{-- <x-admin.nav-label>Tracking System</x-admin.nav-label>
+        <x-admin.nav-item route="admin.activity-logs.index">Activity Logs</x-admin.nav-item> --}}
 
         {{-- Legal --}}
         <x-admin.nav-label>Legal</x-admin.nav-label>

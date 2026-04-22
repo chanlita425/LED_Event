@@ -13,7 +13,7 @@ class PageController extends Controller
     {
         $pages = Page::latest()->paginate(20);
 
-        return view('backend.page.pages.index', compact('pages'));
+        return view('backend.page.cms.pages.index', compact('pages'));
     }
 
     public function create()

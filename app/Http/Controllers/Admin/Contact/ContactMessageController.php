@@ -12,7 +12,7 @@ class ContactMessageController extends Controller
     {
         $messages = ContactMessage::latest('created_at')->paginate(20);
 
-        return view('backend.page.contact.messages', compact('messages'));
+        return view('backend.page.contact.contact-messages.index', compact('messages'));
     }
 
     public function show(string $id)

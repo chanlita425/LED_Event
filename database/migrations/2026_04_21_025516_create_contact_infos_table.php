@@ -10,8 +10,8 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('contact_info', function (Blueprint $table) {
+     {
+        Schema::create('contact_infos', function (Blueprint $table) {
             $table->id();
 
             $table->text('address')->nullable();
@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('working_hours')->nullable();
+
+            $table->timestamps(); // ✅ recommended for CMS
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('contact_infos');
+        Schema::dropIfExists('contact_infos'); // ✅ MATCH
     }
+
 };

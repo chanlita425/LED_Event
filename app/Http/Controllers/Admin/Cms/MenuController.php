@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index()
+  public function index()
     {
-        $menus = Menu::with('group')->orderBy('sort_order')->paginate(20);
+        $groups = MenuGroup::with(['menus' => function ($q) {
+            $q->orderBy('sort_order');
+        }])->orderBy('sort_order')->get();
 
-        return view('backend.page.menus.index', compact('menus'));
+        return view('backend.page.cms.menus.index', compact('groups'));
     }
 
     public function create()

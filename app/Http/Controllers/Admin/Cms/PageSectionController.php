@@ -13,7 +13,7 @@ class PageSectionController extends Controller
     {
         $sections = PageSection::orderBy('page')->orderBy('sort_order')->paginate(20);
 
-        return view('backend.page.page-sections.index', compact('sections'));
+        return view('backend.page.cms.page-sections.index', compact('sections'));
     }
 
     public function create()

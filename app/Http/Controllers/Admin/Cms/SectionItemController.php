@@ -13,7 +13,7 @@ class SectionItemController extends Controller
     {
         $items = SectionItem::orderBy('section_key')->orderBy('sort_order')->paginate(20);
 
-        return view('backend.page.section-items.index', compact('items'));
+        return view('backend.page.cms.section-items.index', compact('items'));
     }
 
     public function create()
