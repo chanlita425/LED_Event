@@ -114,9 +114,9 @@ Route::get('/blog', function () {
 Route::get('/projects', function () {
     return view('frontend.pages.projects');
 })->name('projects');
-Route::get('/products', function () {
-    return view('frontend.pages.products');
-})->name('products');
+// Route::get('/products', function () {
+//     return view('frontend.pages.products');
+// })->name('products');
 Route::get('/media', function () {
     return view('frontend.pages.media');
 })->name('media');

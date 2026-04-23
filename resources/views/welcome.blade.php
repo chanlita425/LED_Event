@@ -39,21 +39,57 @@
         </div>
     </div>
 
+    {{-- youtube  --}}
+    {{-- <div class="relative h-screen overflow-hidden flex items-center justify-center px-4">
+
+        <!-- YOUTUBE BACKGROUND -->
+        <div class="absolute inset-0 -z-10 overflow-hidden bg-black">
+
+            <iframe class="w-[120vw] h-[120vh] scale-[1.2] pointer-events-none"
+                src="https://www.youtube.com/embed/-wTLvPuFK7I?autoplay=1&mute=1&controls=0&loop=1&playlist=-wTLvPuFK7I&playsinline=1&rel=0&modestbranding=1&enablejsapi=1"
+                frameborder="0" allow="autoplay; fullscreen" allow="autoplay" loading="lazy"></iframe>
+
+        </div>
+
+        <!-- DARK OVERLAY -->
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <!-- CONTENT -->
+        <div class="relative z-10 flex flex-col items-center text-white text-center">
+
+            <img src="{{ asset('images/logo.png') }}" class="w-10">
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-[90px] uppercase">
+                <span class="font-bold">led</span> events
+            </h1>
+
+            <p class="text-sm sm:text-base md:text-lg lg:text-[20px]">
+                The Most Reliable Event Production
+            </p>
+
+            <p class="text-sm sm:text-base md:text-lg lg:text-[20px]">
+                System in Cambodia
+            </p>
+
+        </div>
+
+    </div> --}}
+
 
     {{-- why us --}}
     <div class="bg-black relative overflow-hidden px-5">
 
         <!-- 🔵 Visible bottom glow -->
         <div
-            class="absolute bottom-[200px] left-1
-           w-[1400px] aspect-square rounded-full
-           bg-[radial-gradient(circle_at_center,#1100FF_0%,#0E00D480_35%,rgba(0,0,0,0.9)_70%,rgba(0,0,0,1)_100%)]
-           blur-3xl opacity-90 pointer-events-none">
+            class="absolute top-[-250px] -left-40
+    w-[900px] aspect-square rounded-full
+    bg-[radial-gradient(circle_at_left,#0E00D480_30%,rgba(0,0,0,0.95)_75%)]
+    blur-2xl opacity-50 pointer-events-none">
         </div>
-        <div class="max-w-6xl mx-auto relative z-10">
+        <div class="max-w-6xl mx-auto relative z-50">
 
             {{-- header --}}
-            <div id="why-us" class="pt-16 grid grid-cols-1 md:grid-cols-3 items-center gap-5">
+            <div id="why-us" class="pt-30 grid grid-cols-1 md:grid-cols-3 items-center gap-5">
 
                 <h1 class="text-2xl md:text-[40px] uppercase">
                     why led events
@@ -99,7 +135,7 @@
         </div>
 
         {{-- services --}}
-        <div id="services" class="mt-16 max-w-6xl mx-auto px-5 mt-20">
+        <div id="services" class="mt-16 max-w-6xl mx-auto px-5 mt-30">
             <h1 class="text-2xl md:text-[40px] uppercase font-bold">
                 our services
             </h1>
@@ -110,58 +146,38 @@
             </p>
         </div>
 
-        {{-- carousel --}}
-        <div class="relative mt-16 max-w-6xl mx-auto px-5">
 
-            {{-- arrows (hide on mobile) --}}
-            <img src="{{ asset('icons/bleach.png') }}"
-                class="hidden md:block absolute -left-16 top-1/2 -translate-y-1/2 w-8 rotate-270 invert brightness-0 cursor-pointer">
+        {{-- CAROUSEL --}}
+        <div class="relative mt-10 max-w-6xl mx-auto px-5">
 
-            <img src="{{ asset('icons/bleach.png') }}"
-                class="hidden md:block absolute -right-16 top-1/2 -translate-y-1/2 w-8 rotate-90 invert brightness-0 cursor-pointer">
+            <div class="relative mt-10 max-w-6xl mx-auto px-5">
 
-            {{-- cards --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                <!-- LEFT -->
+                <button onclick="prevSlide()"
+                    class="absolute left-5 sm:left-4 top-1/2 -translate-y-1/2 z-20
+           xl:-left-16 2xl:-left-24
+        w-10 h-10 flex items-center justify-center
+        bg-white/80 text-black rounded-full cursor-pointer">
+                    ‹
+                </button>
 
-                {{-- item --}}
-                <div class="p-5 border rounded-md">
-                    <img src="{{ asset('images/image1.png') }}" class="rounded-md w-full h-48 md:h-60 object-cover">
+                <!-- RIGHT -->
+                <button onclick="nextSlide()"
+                    class="absolute right-5 sm:right-4 top-1/2 -translate-y-1/2 z-20
+           xl:-right-16 2xl:-right-24
+        w-10 h-10 flex items-center justify-center
+        bg-white/80 text-black rounded-full cursor-pointer">
+                    ›
+                </button>
 
-                    <div class="p-3 md:p-5 flex flex-col gap-3">
-                        <p class="font-bold">LED Screen Rental</p>
-                        <p class="text-sm line-clamp-3">
-                            High-resolution LED screens for events.
-                        </p>
-                        <button class="border py-2 text-sm">Read More</button>
-                    </div>
-                </div>
-
-                {{-- repeat --}}
-                <div class="p-5 border rounded-md">
-                    <img src="{{ asset('images/image2.png') }}" class="rounded-md w-full h-48 md:h-60 object-cover">
-
-                    <div class="p-3 md:p-5 flex flex-col gap-3">
-                        <p class="font-bold">LED Screen Rental</p>
-                        <p class="text-sm line-clamp-3">
-                            High-resolution LED screens for events.
-                        </p>
-                        <button class="border py-2 text-sm">Read More</button>
-                    </div>
-                </div>
-
-                <div class="p-5 border rounded-md">
-                    <img src="{{ asset('images/image3.png') }}" class="rounded-md w-full h-48 md:h-60 object-cover">
-
-                    <div class="p-3 md:p-5 flex flex-col gap-3">
-                        <p class="font-bold">LED Screen Rental</p>
-                        <p class="text-sm line-clamp-3">
-                            High-resolution LED screens for events.
-                        </p>
-                        <button class="border py-2 text-sm">Read More</button>
-                    </div>
+                <!-- VIEWPORT -->
+                <div class="overflow-hidden">
+                    <div id="carousel" class="flex transition-transform duration-500 ease-in-out"></div>
                 </div>
 
             </div>
+
+
         </div>
 
     </div>
@@ -247,6 +263,7 @@
 
     {{-- how we work --}}
     <div id="how-we-work" class="max-w-6xl mx-auto px-4 sm:px-6">
+
 
         <!-- TITLE -->
         <p class="text-2xl sm:text-3xl md:text-[40px] font-bold pb-10 sm:pb-16">
@@ -509,3 +526,99 @@
 
     </div>
 @endsection
+
+{{-- JS --}}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const mediaItems = [{
+                title: "LED Screen Rental",
+                desc: "High-resolution LED screens for events.",
+                img: "{{ asset('images/image1.png') }}"
+            },
+            {
+                title: "Stage Lighting",
+                desc: "Professional lighting solutions.",
+                img: "{{ asset('images/image2.png') }}"
+            },
+            {
+                title: "Audio System",
+                desc: "Clear and powerful sound system.",
+                img: "{{ asset('images/image3.png') }}"
+            },
+            {
+                title: "Event Setup",
+                desc: "Full event production setup.",
+                img: "{{ asset('images/image1.png') }}"
+            },
+            {
+                title: "Live Streaming",
+                desc: "Stream your events professionally.",
+                img: "{{ asset('images/image2.png') }}"
+            },
+            {
+                title: "Visual Effects",
+                desc: "Creative visual experience.",
+                img: "{{ asset('images/image3.png') }}"
+            }
+        ];
+
+        const container = document.getElementById("carousel");
+        let currentIndex = 0;
+
+        function getVisibleCards() {
+            if (window.innerWidth < 640) return 1;
+            if (window.innerWidth < 1024) return 2;
+            return 3;
+        }
+
+        function renderCards() {
+            container.innerHTML = "";
+
+            mediaItems.forEach(item => {
+                container.innerHTML += `
+                <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <div class="bg-black text-white p-5 border border-gray-700 rounded-md">
+                        <img src="${item.img}" class="w-full h-48 object-cover rounded-md">
+                        <div class="mt-3 flex flex-col gap-2">
+                            <p class="font-bold">${item.title}</p>
+                            <p class="text-sm">${item.desc}</p>
+                            <button class="border py-2 text-sm">Read More</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const visible = getVisibleCards();
+            const itemWidth = 100 / visible;
+            container.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
+        }
+
+        window.nextSlide = function() {
+            const visible = getVisibleCards();
+            if (currentIndex < mediaItems.length - visible) {
+                currentIndex++;
+                updateCarousel();
+            }
+        }
+
+        window.prevSlide = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        }
+
+        window.addEventListener("resize", () => {
+            currentIndex = 0;
+            updateCarousel();
+        });
+
+        renderCards();
+    });
+</script>

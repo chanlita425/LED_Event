@@ -124,7 +124,7 @@
 
 
             <!-- blog -->
-              <div>
+            <div>
                 <button onclick="toggleSub('blog-menu')" class="text-3xl font-bold w-full text-left">
                     Blog
                 </button>
@@ -146,8 +146,10 @@
 
                 <div id="products-menu" class="submenu hidden mt-4 flex flex-col gap-3 text-lg pl-3">
                     <a href="/projects">Fog & Effects</a>
-                    <a href="/projects#concert">Event Grides</a>
-                    <a href="/projects#corporate">LED Display Sales</a>
+                    <a href="https://ledmedia.com.kh/" target="_blank" rel="noopener noreferrer"
+                        class="hover:opacity-70">
+                        LED Display Sales
+                    </a>
                 </div>
             </div>
 
@@ -204,7 +206,8 @@
                             <div
                                 class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                    <a href="{{ route('home') }}#why-us" class="hover:opacity-70">LED Screen Retail</a>
+                                    <a href="{{ route('home') }}#why-us" class="hover:opacity-70">LED Screen
+                                        Retail</a>
                                     <a href="{{ route('home') }}#services" class="hover:opacity-70">Stage Rental</a>
                                     <a href="#" class="hover:opacity-70">Sound System</a>
                                     <a href="#" class="hover:opacity-70">Lighting Production</a>
@@ -225,7 +228,7 @@
                             </div>
                         </li>
                         <a class="nav-link" href="/why-us">why us</a>
-                            
+
                         <li class="group"><a class="nav-link" href="/media">media</a>
                             <div
                                 class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
@@ -248,12 +251,16 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="group"><a class="nav-link" href="/products">products</a>
+                        <li class="group">
+                            <div class="nav-link cursor-pointer">products</div>
                             <div
                                 class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
                                     <a href="/why-us" class="hover:opacity-70">Fog & Effects </a>
-                                    <a href="/services" class="hover:opacity-70">LED Display Sales</a>
+                                    <a href="https://ledmedia.com.kh/" target="_blank" rel="noopener noreferrer"
+                                        class="hover:opacity-70">
+                                        LED Display Sales
+                                    </a>
                                 </div>
                             </div>
                         </li>

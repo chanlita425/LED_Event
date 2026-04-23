@@ -1,13 +1,21 @@
 @extends('frontend.layouts.main')
 
+@php
+    $minimalFooter = true;
+@endphp
+
+
 @section('content')
     {{-- HERO SECTION --}}
-    <div class="relative min-h-screen flex items-center justify-center bg-cover bg-center px-4 my-20"
+    <div class="relative min-h-screen flex items-center justify-center bg-cover bg-center px-4 pt-28 p-4"
         style="background-image: url('{{ asset('images/hero-section.jpg') }}');">
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 py-10 lg:py-20 w-full">
+        <!-- DARK OVERLAY -->
+        <div class="absolute inset-0 bg-black/50"></div>
 
-            {{-- get in touch --}}
+        <div class="relative z-10 max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 ">
+
+            {{-- LEFT: FORM --}}
             <div class="bg-black p-5 sm:p-8">
 
                 <div class="flex flex-col gap-5">
@@ -17,40 +25,43 @@
                         Let's Build Vision
                     </p>
 
-                    <p class="text-sm sm:text-base">
-                        Ready to start your project? Contact our team today for a free consultation and quote. We are here to
-                        answer any questions you may have about our services.
+                    <p class="text-sm sm:text-base text-gray-300">
+                        Ready to start your project? Contact our team today for a free consultation and quote.
+                        We are here to answer any questions you may have about our services.
                     </p>
                 </div>
 
-                <p class="my-5 text-xl sm:text-2xl lg:text-[30px]">Information</p>
+                <p class="my-6 text-xl sm:text-2xl lg:text-[30px] font-semibold">
+                    Information
+                </p>
 
-                {{-- form --}}
+                {{-- FORM --}}
                 <form action="" class="flex flex-col gap-3">
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                         <input type="text" placeholder="First Name"
-                            class="outline-none border border-white px-3 py-2 w-full">
+                            class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
 
                         <input type="text" placeholder="Last Name"
-                            class="outline-none border border-white px-3 py-2 w-full">
+                            class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
                     </div>
 
                     <input type="email" placeholder="Email Address"
-                        class="outline-none border border-white px-3 py-2 w-full">
+                        class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
 
                     <select name="project_type" id="project_type" required
-                        class="outline-none border border-white px-3 py-2 w-full text-black">
-                        <option value="" disabled selected>Project Type</option>
+                        class="outline-none border border-white px-3 py-2 w-full bg-black text-gray-400">
+
+                        <option value="" disabled selected hidden>Project Type</option>
                         <option value="web">Web Development</option>
                         <option value="mobile">Mobile App</option>
                         <option value="design">Design</option>
                     </select>
 
                     <textarea rows="5" placeholder="Your Message"
-                        class="w-full outline-none border border-white px-3 py-2"></textarea>
+                        class="w-full outline-none border border-white px-3 py-2 bg-transparent text-white"></textarea>
 
-                    <button class="bg-white w-full text-black font-bold py-2">
+                    <button class="bg-white w-full text-black font-bold py-2 hover:bg-gray-200 transition">
                         Send Message
                     </button>
 
@@ -58,54 +69,56 @@
 
             </div>
 
-            {{-- contact --}}
-            <div class="flex flex-col gap-5 py-10 lg:py-15 text-center lg:text-left">
+            {{-- RIGHT: CONTACT INFO --}}
+            <div class="flex flex-col gap-5 text-center lg:text-left lg:py-10">
 
                 <h1 class="text-4xl sm:text-6xl lg:text-[70px] font-bold">
                     Contact
                 </h1>
 
-                <p class="text-sm sm:text-base">
+                <p class="text-sm sm:text-base text-gray-200">
                     #159A, Street 2011, Dei Thmey Village, Khmuonh Commune, Sen Sok District, Phnom Penh.
                 </p>
 
-                <div class="text-sm sm:text-base">
-                    <p>Phone: 015 999235</p>
-                    <p>Email: Info@ledevents.asia </p>
+                <div class="text-sm sm:text-base text-gray-200">
+                    <p>Phone: 015 999 235</p>
+                    <p>Email: Info@ledevents.asia</p>
                 </div>
 
-                {{-- icon --}}
-                <div class="flex justify-center lg:justify-start">
+                {{-- SOCIAL ICONS --}}
+                <div class="flex justify-center  lg:justify-start">
 
-                    <div class="flex items-center gap-3 sm:gap-4 text-black">
+                    <div class="flex items-center gap-3 sm:gap-4">
 
                         <a href="#"
                             class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                            <i class="fa-brands fa-square-youtube text-sm"></i>
+                            <i class="fa-brands fa-youtube text-sm text-black"></i>
                         </a>
 
                         <a href="#"
                             class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                            <i class="fa-brands fa-facebook-f text-sm text-black"></i>
                         </a>
 
                         <a href="#"
                             class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                            <i class="fa-brands fa-tiktok text-sm"></i>
+                            <i class="fa-brands fa-tiktok text-sm text-black"></i>
                         </a>
 
                         <a href="#"
                             class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                            <i class="fa-brands fa-instagram text-sm"></i>
+                            <i class="fa-brands fa-instagram text-sm text-black"></i>
                         </a>
 
                         <a href="#"
                             class="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                            <i class="fa-brands fa-telegram text-sm"></i>
+                            <i class="fa-brands fa-telegram text-sm text-black"></i>
                         </a>
 
                     </div>
                 </div>
+
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.5699549247474!2d104.87179573768563!3d11.542808700220517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095100314815cd%3A0x37b11af29633e434!2sA2Z%20Business%20Center!5e0!3m2!1sen!2skh!4v1776927909252!5m2!1sen!2skh"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
 
             </div>
 
