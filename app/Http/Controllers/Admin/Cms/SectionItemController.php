@@ -15,23 +15,31 @@ class SectionItemController extends Controller
     {
         $query = SectionItem::query();
 
-        // FILTERS
-        if ($request->filled('page')) {
-            $query->where('page', $request->page);
+        $pageFilter    = $request->input('page_filter');
+        $sectionFilter = $request->input('section');
+        $statusFilter  = $request->input('status');
+        $search        = $request->input('search');
+
+        if ($pageFilter) {
+            $query->where('page', $pageFilter);
         }
 
-        if ($request->filled('section')) {
-            $query->where('section_key', $request->section);
+        if ($sectionFilter) {
+            $query->where('section_key', $sectionFilter);
         }
 
-        if ($request->filled('status')) {
-            $query->where('is_active', $request->status);
+        if ($statusFilter !== null && $statusFilter !== '') {
+            $query->where('is_active', $statusFilter);
         }
 
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('title_en', 'like', '%' . $request->search . '%')
-                ->orWhere('description_en', 'like', '%' . $request->search . '%');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title_en',     'like', "%{$search}%")
+                  ->orWhere('title_km',      'like', "%{$search}%")
+                  ->orWhere('description_en','like', "%{$search}%")
+                  ->orWhere('section_key',   'like', "%{$search}%")
+                  ->orWhere('group_title',   'like', "%{$search}%")
+                  ->orWhere('type',          'like', "%{$search}%");
             });
         }
 
@@ -39,13 +47,13 @@ class SectionItemController extends Controller
             ->orderBy('section_key')
             ->orderBy('sort_order')
             ->get()
-            ->groupBy('page'); 
+            ->groupBy('page');
 
-        // dropdowns
-        $pages = SectionItem::select('page')->distinct()->pluck('page');
-        $sections = SectionItem::select('section_key')->distinct()->pluck('section_key');
+        // filter dropdowns
+        $menuGroups = MenuGroup::orderBy('sort_order')->get(['id', 'slug', 'name_en']);
+        $sections   = SectionItem::select('section_key')->distinct()->orderBy('section_key')->pluck('section_key');
 
-        return view('backend.page.cms.section-items.index', compact('items', 'pages', 'sections'));
+        return view('backend.page.cms.section-items.index', compact('items', 'menuGroups', 'sections'));
     }
 
     public function show(string $id)

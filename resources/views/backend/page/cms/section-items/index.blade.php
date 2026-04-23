@@ -18,11 +18,11 @@
         <div class="flex flex-wrap gap-3 items-center">
 
             {{-- PAGE --}}
-            <select name="page" class="bg-gray-800 text-white px-3 py-2 rounded text-sm">
+            <select name="page_filter" class="bg-gray-800 text-white px-3 py-2 rounded text-sm">
                 <option value="">All Pages</option>
-                @foreach($pages as $p)
-                    <option value="{{ $p }}" {{ request('page') == $p ? 'selected' : '' }}>
-                        {{ $p }}
+                @foreach($menuGroups as $mg)
+                    <option value="{{ $mg->slug }}" {{ request('page_filter') == $mg->slug ? 'selected' : '' }}>
+                        {{ $mg->name_en }}
                     </option>
                 @endforeach
             </select>
@@ -41,8 +41,8 @@
             <input type="text"
                    name="search"
                    value="{{ request('search') }}"
-                   placeholder="Search title..."
-                   class="bg-gray-800 text-white px-3 py-2 rounded text-sm">
+                   placeholder="Search ..."
+                   class="bg-gray-800 text-white px-3 py-2 rounded text-sm w-52">
 
             {{-- STATUS --}}
             <select name="status" class="bg-gray-800 text-white px-3 py-2 rounded text-sm">
@@ -86,7 +86,7 @@
 </form>
 
 
-<div class="space-y-6 mt-6">
+<div class="space-y-4 mt-4">
     
 
     @foreach($items as $page => $pageItems)
