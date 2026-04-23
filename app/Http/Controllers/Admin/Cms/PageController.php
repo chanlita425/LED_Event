@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\Page;
+use App\Models\Cms\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +18,7 @@ class PageController extends Controller
 
     public function create()
     {
-        return view('backend.page.pages.create');
+        return view('backend.page.cms.pages.create');
     }
 
     public function store(Request $request)
@@ -27,7 +27,7 @@ class PageController extends Controller
             'slug'             => 'required|string|max:255|unique:pages,slug',
             'type'             => 'nullable|string|max:255',
             'title_en'         => 'required|string|max:255',
-            'title_km'         => 'required|string|max:255',
+            'title_km'         => 'nullable|string|max:255',
             'subtitle_en'      => 'nullable|string|max:255',
             'subtitle_km'      => 'nullable|string|max:255',
             'content_en'       => 'nullable|string',
@@ -36,7 +36,7 @@ class PageController extends Controller
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords'    => 'nullable|string',
-            'is_active'        => 'boolean',
+            'is_active'        => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -54,14 +54,14 @@ class PageController extends Controller
     {
         $page = Page::findOrFail($id);
 
-        return view('backend.page.pages.show', compact('page'));
+        return view('backend.page.cms.pages.show', compact('page'));
     }
 
     public function edit(string $id)
     {
         $page = Page::findOrFail($id);
 
-        return view('backend.page.pages.edit', compact('page'));
+        return view('backend.page.cms.pages.create', compact('page'));
     }
 
     public function update(Request $request, string $id)
@@ -72,7 +72,7 @@ class PageController extends Controller
             'slug'             => 'required|string|max:255|unique:pages,slug,' . $page->id,
             'type'             => 'nullable|string|max:255',
             'title_en'         => 'required|string|max:255',
-            'title_km'         => 'required|string|max:255',
+            'title_km'         => 'nullable|string|max:255',
             'subtitle_en'      => 'nullable|string|max:255',
             'subtitle_km'      => 'nullable|string|max:255',
             'content_en'       => 'nullable|string',
@@ -81,7 +81,7 @@ class PageController extends Controller
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords'    => 'nullable|string',
-            'is_active'        => 'boolean',
+            'is_active'        => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('featured_image')) {

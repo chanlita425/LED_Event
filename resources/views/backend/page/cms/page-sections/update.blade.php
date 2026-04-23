@@ -25,7 +25,7 @@
 
                 <select id="pageSelect"
                         name="page"
-                        class="w-full mt-2 bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                        class="w-full mt-2  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
                     <option value="">Select Page</option>
 
@@ -47,7 +47,7 @@
                        name="section_key"
                        value="{{ old('section_key', $section->section_key) }}"
                        placeholder="hero, services, why-us"
-                       class="w-full mt-2 bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                       class="w-full mt-2  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
             </div>
 
         </div>
@@ -59,20 +59,20 @@
                    name="title_en"
                    value="{{ old('title_en', $section->title_en) }}"
                    placeholder="Title"
-                   class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                   class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
             <input type="text"
                    name="subtitle_en"
                    value="{{ old('subtitle_en', $section->subtitle_en) }}"
                    placeholder="Subtitle"
-                   class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                   class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
         </div>
 
         {{-- DESCRIPTION --}}
         <div>
             <textarea name="description_en"
-                      class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none"
+                      class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none"
                       placeholder="Description">{{ old('description_en', $section->description_en) }}</textarea>
         </div>
 
@@ -83,13 +83,13 @@
                    name="button_text_en"
                    value="{{ old('button_text_en', $section->button_text_en) }}"
                    placeholder="Button Text"
-                   class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                   class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
             <input type="text"
                    name="button_link_en"
                    value="{{ old('button_link_en', $section->button_link_en) }}"
                    placeholder="Button Link"
-                   class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                   class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
         </div>
 
@@ -101,7 +101,7 @@
 
                 <input type="file"
                        name="media_url"
-                       class="w-full mt-2 bg-gray-800 text-white p-2 rounded-xl border border-gray-700">
+                       class="w-full mt-2  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700">
 
                 @if($section->media_url)
                     <img src="{{ asset('storage/' . $section->media_url) }}"
@@ -113,7 +113,7 @@
                 <label class="text-xs text-gray-400">Media Type</label>
 
                 <select name="media_type"
-                    class="w-full bg-gray-800 text-white p-2 mt-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                    class="w-full  bg-gray-800 text-gray-300 p-2 mt-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
                     <option value="">Select Media Type</option>
 
@@ -136,10 +136,10 @@
                    name="sort_order"
                    value="{{ old('sort_order', $section->sort_order) }}"
                    placeholder="Sort Order"
-                   class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                   class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
             <select name="is_active"
-                    class="w-full bg-gray-800 text-white p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
+                    class="w-full  bg-gray-800 text-gray-300 p-2 rounded-xl border border-gray-700 focus:border-orange-500 outline-none">
 
                 <option value="1" {{ $section->is_active ? 'selected' : '' }}>Active</option>
                 <option value="0" {{ !$section->is_active ? 'selected' : '' }}>Inactive</option>
@@ -152,7 +152,7 @@
         <div class="flex justify-end gap-3 pt-4 border-t border-gray-800">
 
             <a href="{{ route('admin.page-sections.index') }}"
-               class="px-5 py-2 bg-gray-800 text-white rounded-xl border border-gray-700 hover:bg-gray-700">
+               class="px-5 py-2  bg-gray-800 text-white rounded-xl border border-gray-700 hover:bg-gray-700">
                 Cancel
             </a>
 
