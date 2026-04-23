@@ -3,22 +3,85 @@
 namespace App\Http\Controllers\Admin\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\PageSection;
+use App\Models\Cms\PageSection;
+use App\Models\Cms\MenuGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PageSectionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sections = PageSection::orderBy('page')->orderBy('sort_order')->paginate(20);
+        $query = PageSection::query();
 
-        return view('backend.page.cms.page-sections.index', compact('sections'));
+        // FILTER: PAGE
+        if ($request->page) {
+            $query->where('page', $request->page);
+        }
+
+        // FILTER: SECTION KEY
+        if ($request->section_key) {
+            $query->where('section_key', $request->section_key);
+        }
+
+        // SEARCH
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title_en', 'like', '%' . $request->search . '%')
+                ->orWhere('section_key', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // STATUS
+        if ($request->status !== null && $request->status !== '') {
+            $query->where('is_active', $request->status);
+        }
+
+        // RESULT
+        $sections = $query->orderBy('page')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('page');
+
+        // FIX: get pages correctly
+        $pages = PageSection::select('page')
+            ->distinct()
+            ->pluck('page');
+
+        $sectionKeys = PageSection::select('section_key')
+            ->distinct()
+            ->pluck('section_key');
+
+        return view('backend.page.cms.page-sections.index', compact(
+            'sections',
+            'pages',
+            'sectionKeys'
+        ));
+    }
+
+    private function mediaTypes()
+    {
+        return [
+            'image' => 'Image',
+            'video' => 'Video',
+            'youtube' => 'YouTube',
+        ];
     }
 
     public function create()
     {
-        return view('backend.page.page-sections.create');
+        $pages = MenuGroup::orderBy('sort_order')->get();
+
+        $mediaTypes = [
+            'image' => 'Image',
+            'video' => 'Video',
+            'youtube' => 'YouTube',
+        ];
+
+        return view('backend.page.cms.page-sections.create', compact(
+            'pages',
+            'mediaTypes'
+        ));
     }
 
     public function store(Request $request)
@@ -55,16 +118,28 @@ class PageSectionController extends Controller
 
     public function show(string $id)
     {
-        $section = PageSection::findOrFail($id);
+         $section = PageSection::with('items')->findOrFail($id);
 
-        return view('backend.page.page-sections.show', compact('section'));
+        return view('backend.page.cms.page-sections.show', compact('section'));
     }
 
     public function edit(string $id)
     {
         $section = PageSection::findOrFail($id);
 
-        return view('backend.page.page-sections.edit', compact('section'));
+        $pages = MenuGroup::orderBy('sort_order')->get();
+
+        $mediaTypes = [
+            'image' => 'Image',
+            'video' => 'Video',
+            'youtube' => 'YouTube',
+        ];
+
+        return view('backend.page.Cms.page-sections.update', compact(
+            'section',
+            'pages',
+            'mediaTypes'
+        ));
     }
 
     public function update(Request $request, string $id)
