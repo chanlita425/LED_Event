@@ -6,56 +6,84 @@
 
 @section('content')
 
+
 {{-- FILTER --}}
 <form method="GET"
-      class="bg-gray-900 border border-gray-800 p-4 rounded-xl mb-4 flex flex-wrap gap-3">
+      class="bg-gray-900 border border-gray-800 p-4 rounded-xl mb-4">
 
-    {{-- GROUP --}}
-    <select name="group"
-            class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
-        <option value="">All Groups</option>
-        @foreach($allGroups as $group)
-            <option value="{{ $group }}" {{ request('group') == $group ? 'selected' : '' }}>
-                {{ $group }}
-            </option>
-        @endforeach
-    </select>
+    <div class="flex flex-wrap items-center justify-between gap-3">
 
-    {{-- KEY --}}
-    <input type="text"
-           name="key"
-           value="{{ request('key') }}"
-           placeholder="Search key..."
-           class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
+        {{-- LEFT SIDE FILTERS --}}
+        <div class="flex flex-wrap gap-3 items-center">
 
-    {{-- TYPE --}}
-    <select name="type"
-            class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
-        <option value="">All Types</option>
-        <option value="text" {{ request('type') == 'text' ? 'selected' : '' }}>Text</option>
-        <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>Image</option>
-        <option value="textarea" {{ request('type') == 'textarea' ? 'selected' : '' }}>Textarea</option>
-        <option value="phone" {{ request('type') == 'phone' ? 'selected' : '' }}>Phone</option>
-        <option value="email" {{ request('type') == 'email' ? 'selected' : '' }}>Email</option>
-    </select>
+            {{-- GROUP --}}
+            <select name="group"
+                    class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
+                <option value="">All Groups</option>
+                @foreach($allGroups as $group)
+                    <option value="{{ $group }}" {{ request('group') == $group ? 'selected' : '' }}>
+                        {{ $group }}
+                    </option>
+                @endforeach
+            </select>
 
-    {{-- STATUS --}}
-    <select name="status"
-            class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
-        <option value="">All Status</option>
-        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
-        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
-    </select>
+            {{-- KEY --}}
+            <input type="text"
+                   name="key"
+                   value="{{ request('key') }}"
+                   placeholder="Search key..."
+                   class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
 
-    {{-- BUTTONS --}}
-    <button class="bg-orange-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-orange-600 transition">
-        Filter
-    </button>
+            {{-- TYPE --}}
+            <select name="type"
+                    class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
+                <option value="">All Types</option>
+                <option value="text" {{ request('type') == 'text' ? 'selected' : '' }}>Text</option>
+                <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>Image</option>
+                <option value="textarea" {{ request('type') == 'textarea' ? 'selected' : '' }}>Textarea</option>
+                <option value="phone" {{ request('type') == 'phone' ? 'selected' : '' }}>Phone</option>
+                <option value="email" {{ request('type') == 'email' ? 'selected' : '' }}>Email</option>
+            </select>
 
-    <a href="{{ route('admin.settings.index') }}"
-       class="bg-gray-800 text-gray-400 border border-gray-800 px-4 py-2 rounded-xl text-sm hover:bg-gray-700 transition">
-        Reset
-    </a>
+            {{-- STATUS --}}
+            <select name="status"
+                    class="bg-gray-800 text-gray-400 border border-gray-800 rounded-xl px-3 py-2 text-sm focus:border-orange-500 outline-none">
+                <option value="">All Status</option>
+                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
+                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
+            </select>
+
+            {{-- FILTER BUTTON --}}
+            <button class="bg-orange-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-orange-600 transition">
+                Filter
+            </button>
+
+            {{-- RESET --}}
+            <a href="{{ route('admin.settings.index') }}"
+               class="bg-gray-800 text-gray-400 border border-gray-800 px-4 py-2 rounded-xl text-sm hover:bg-gray-700 transition">
+                Reset
+            </a>
+
+        </div>
+
+        {{-- RIGHT SIDE CREATE BUTTON --}}
+        <div class="flex items-center">
+
+            <a href="{{ route('admin.settings.create') }}"
+               class="inline-flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-orange-600 transition">
+
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 4v16m8-8H4"/>
+                </svg>
+
+                Create Setting
+            </a>
+
+        </div>
+
+    </div>
 
 </form>
 
@@ -178,7 +206,18 @@
                                             Save
                                         </button>
 
+                                          <button type="button"
+                                            onclick="openDeleteModal(
+                                                '{{ route('admin.settings.destroy', $setting->id) }}',
+                                                '{{ $setting->section_key }}'
+                                            )"
+                                            class="px-3 py-1 text-xs bg-red-500/20 text-red-400 rounded hover:bg-red-500/30">
+                                            Delete
+                                        </button>
+
                                     </form>
+
+                                  
 
                                 </td>
 
@@ -195,6 +234,9 @@
         </div>
 
     @endforeach
+
+   @include('backend.components.destroy')
+
 
 </div>
 

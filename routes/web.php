@@ -64,6 +64,8 @@ Route::prefix('admin')
 
      // ── SETTINGS ──────────────────────────
     Route::resource('settings', SettingController::class);
+    Route::delete('/admin/settings/{id}', [SettingController::class, 'destroy'])
+        ->name('admin.settings.destroy');
     Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
         ->name('settings.quick-update');
 
