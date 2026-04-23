@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContactInfo extends Model
 {
-    protected $table = 'contact_info';
+    protected $table = 'contact_infos';
 
     public $timestamps = false;
-    // because your table does not have created_at / updated_at
 
     protected $fillable = [
         'address',

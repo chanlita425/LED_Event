@@ -53,15 +53,17 @@ Route::prefix('admin')
     Route::resource('menus',         MenuController::class)->except(['show']);
     Route::resource('pages',         PageController::class);
     Route::resource('page-sections', PageSectionController::class);
+
+
+    // ── section ──────────────────────────
     Route::resource('section-items', SectionItemController::class);
+    Route::get('/get-groups/{id}', [SectionItemController::class, 'getGroups'])->name('get-groups');
+
     Route::resource('media-files',   MediaFileController::class)->only(['index', 'store', 'show', 'destroy']);
-    Route::resource('settings',      SettingController::class);
-    // Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
-    //         ->name('admin.settings.quick-update');
+
 
      // ── SETTINGS ──────────────────────────
     Route::resource('settings', SettingController::class);
-
     Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
         ->name('settings.quick-update');
 

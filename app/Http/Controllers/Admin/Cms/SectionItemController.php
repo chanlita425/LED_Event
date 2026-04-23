@@ -3,69 +3,144 @@
 namespace App\Http\Controllers\Admin\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\SectionItem;
+use App\Models\Cms\SectionItem;
+use App\Models\Cms\MenuGroup;
+use App\Models\Cms\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SectionItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = SectionItem::orderBy('section_key')->orderBy('sort_order')->paginate(20);
+        $query = SectionItem::query();
 
-        return view('backend.page.cms.section-items.index', compact('items'));
-    }
-
-    public function create()
-    {
-        return view('backend.page.section-items.create');
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'section_key'    => 'required|string|max:255',
-            'component_type' => 'nullable|string|max:255',
-            'group_title'    => 'nullable|string|max:255',
-            'page'           => 'nullable|string|max:255',
-            'title_en'       => 'nullable|string|max:255',
-            'title_km'       => 'nullable|string|max:255',
-            'description_en' => 'nullable|string',
-            'description_km' => 'nullable|string',
-            'image'          => 'nullable|file|mimes:jpg,jpeg,png,gif,webp|max:4096',
-            'icon'           => 'nullable|string|max:255',
-            'link'           => 'nullable|string|max:255',
-            'button_text_en' => 'nullable|string|max:255',
-            'button_text_km' => 'nullable|string|max:255',
-            'sort_order'     => 'nullable|integer',
-            'is_active'      => 'boolean',
-            'type'           => 'nullable|string|max:255',
-            'meta'           => 'nullable|array',
-        ]);
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('section-items', 'public');
+        // FILTERS
+        if ($request->filled('page')) {
+            $query->where('page', $request->page);
         }
 
-        $data['is_active'] = $request->boolean('is_active', true);
+        if ($request->filled('section')) {
+            $query->where('section_key', $request->section);
+        }
 
-        SectionItem::create($data);
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status);
+        }
 
-        return redirect()->route('admin.section-items.index')->with('success', 'Item created.');
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title_en', 'like', '%' . $request->search . '%')
+                ->orWhere('description_en', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $items = $query->orderBy('page')
+            ->orderBy('section_key')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('page'); 
+
+        // dropdowns
+        $pages = SectionItem::select('page')->distinct()->pluck('page');
+        $sections = SectionItem::select('section_key')->distinct()->pluck('section_key');
+
+        return view('backend.page.cms.section-items.index', compact('items', 'pages', 'sections'));
     }
 
     public function show(string $id)
     {
         $item = SectionItem::findOrFail($id);
 
-        return view('backend.page.section-items.show', compact('item'));
+        return view('backend.page.cms.section-items.show', compact('item'));
     }
+
+    public function create()
+    {
+        $pages = MenuGroup::orderBy('sort_order')->get();
+
+        // default: empty groups until page selected
+        $groups = collect();
+
+        return view('backend.page.cms.section-items.create', compact('pages', 'groups')); 
+    }
+
+   // AJAX: GET MENUS BY MENU GROUP ID
+    public function getGroups($id)
+    {
+        $groups = Menu::where('menu_group_id', $id)
+            ->orderBy('sort_order')
+            ->get(['id', 'name_en', 'menu_group_id']);
+
+        return response()->json($groups);
+    }
+
+
+      public function store(Request $request)
+    {
+        $data = $request->validate([
+            'section_key'    => 'required|string|max:255',
+            'component_type' => 'nullable|string|max:255',
+            'group_title'    => 'nullable|string|max:255',
+            'page'           => 'nullable|string|max:255',
+
+            'title_en'       => 'nullable|string|max:255',
+            'title_km'       => 'nullable|string|max:255',
+            'description_en' => 'nullable|string',
+            'description_km' => 'nullable|string',
+
+            'image'          => 'nullable|file|mimes:jpg,jpeg,png,gif,webp|max:4096',
+            'icon'           => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
+            'link'           => 'nullable|string|max:255',
+
+            'button_text_en' => 'nullable|string|max:255',
+            'button_text_km' => 'nullable|string|max:255',
+
+            'sort_order'     => 'nullable|integer',
+            'is_active'      => 'boolean',
+            'type'           => 'nullable|string|max:255',
+            'meta'           => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('section-items', 'public');
+        }
+
+        if ($request->hasFile('icon')) {
+            $data['icon'] = $request->file('icon')->store('section-items/icons', 'public');
+        }
+
+        $data['is_active'] = $request->boolean('is_active', true);
+
+        if (!empty($data['meta'])) {
+            $decoded = json_decode($data['meta'], true);
+            $data['meta'] = json_last_error() === JSON_ERROR_NONE ? $decoded : null;
+        }
+
+        SectionItem::create($data);
+
+        return redirect()->route('admin.section-items.index')
+            ->with('success', 'Item created successfully.');
+    }
+
 
     public function edit(string $id)
     {
-        $item = SectionItem::findOrFail($id);
+        $item  = SectionItem::findOrFail($id);
+        $pages = MenuGroup::orderBy('sort_order')->get();
 
-        return view('backend.page.section-items.edit', compact('item'));
+        // Pre-load groups for the currently selected page
+        $groups = collect();
+        if ($item->page) {
+            $pageGroup = MenuGroup::where('slug', $item->page)->first();
+            if ($pageGroup) {
+                $groups = Menu::where('menu_group_id', $pageGroup->id)
+                    ->orderBy('sort_order')
+                    ->get(['id', 'name_en']);
+            }
+        }
+
+        return view('backend.page.cms.section-items.edit', compact('item', 'pages', 'groups'));
     }
 
     public function update(Request $request, string $id)
@@ -82,14 +157,14 @@ class SectionItemController extends Controller
             'description_en' => 'nullable|string',
             'description_km' => 'nullable|string',
             'image'          => 'nullable|file|mimes:jpg,jpeg,png,gif,webp|max:4096',
-            'icon'           => 'nullable|string|max:255',
+            'icon'           => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
             'link'           => 'nullable|string|max:255',
             'button_text_en' => 'nullable|string|max:255',
             'button_text_km' => 'nullable|string|max:255',
             'sort_order'     => 'nullable|integer',
             'is_active'      => 'boolean',
             'type'           => 'nullable|string|max:255',
-            'meta'           => 'nullable|array',
+            'meta'           => 'nullable|string',
         ]);
 
         if ($request->hasFile('image')) {
@@ -99,7 +174,19 @@ class SectionItemController extends Controller
             $data['image'] = $request->file('image')->store('section-items', 'public');
         }
 
+        if ($request->hasFile('icon')) {
+            if ($item->icon) {
+                Storage::disk('public')->delete($item->icon);
+            }
+            $data['icon'] = $request->file('icon')->store('section-items/icons', 'public');
+        }
+
         $data['is_active'] = $request->boolean('is_active');
+
+        if (!empty($data['meta'])) {
+            $decoded = json_decode($data['meta'], true);
+            $data['meta'] = json_last_error() === JSON_ERROR_NONE ? $decoded : null;
+        }
 
         $item->update($data);
 

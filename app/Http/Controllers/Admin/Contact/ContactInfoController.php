@@ -10,23 +10,33 @@ class ContactInfoController extends Controller
 {
     public function index()
     {
-        $info = ContactInfo::first() ?? new ContactInfo();
+         $info = ContactInfo::first();
 
-        return view('backend.page.contact.info', compact('info'));
+        if (!$info) {
+            $info = new ContactInfo();
+        }
+
+        return view('backend.page.contact.contact-info.index', compact('info'));
     }
 
-    public function update(Request $request)
+    public function storeOrUpdate(Request $request)
     {
         $data = $request->validate([
             'address'       => 'nullable|string',
-            'email'         => 'nullable|email|max:255',
-            'phone_1'       => 'nullable|string|max:50',
-            'phone_2'       => 'nullable|string|max:50',
-            'working_hours' => 'nullable|string|max:255',
+            'email'         => 'nullable|email',
+            'phone_1'       => 'nullable|string',
+            'phone_2'       => 'nullable|string',
+            'working_hours' => 'nullable|string',
         ]);
 
-        ContactInfo::updateOrCreate(['id' => 1], $data);
+        $info = ContactInfo::first();
 
-        return redirect()->route('admin.contact-info.index')->with('success', 'Contact info updated.');
+        if ($info) {
+            $info->update($data);
+        } else {
+            ContactInfo::create($data);
+        }
+
+        return redirect()->back()->with('success', 'Contact info updated successfully.');
     }
 }
