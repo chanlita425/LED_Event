@@ -66,12 +66,15 @@ class SectionItemController extends Controller
     public function create()
     {
         $pages = MenuGroup::orderBy('sort_order')->get();
-
-        // default: empty groups until page selected
         $groups = collect();
+        
+        $sectionKeys = SectionItem::whereNotNull('section_key')
+            ->where('section_key', '!=', '')
+            ->distinct()
+            ->pluck('section_key');
 
-        return view('backend.page.cms.section-items.create', compact('pages', 'groups')); 
-    }
+            return view('backend.page.cms.section-items.create', compact('pages', 'groups', 'sectionKeys')); 
+        }
 
    // AJAX: GET MENUS BY MENU GROUP ID
     public function getGroups($id)
@@ -153,7 +156,9 @@ class SectionItemController extends Controller
 
     public function update(Request $request, string $id)
     {
+        
         $item = SectionItem::findOrFail($id);
+        
 
         $data = $request->validate([
             'section_key'    => 'required|string|max:255',

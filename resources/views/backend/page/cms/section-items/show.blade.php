@@ -1,141 +1,155 @@
 @extends('backend.layout.app')
 
 @section('title', 'View Section Item')
-@section('page-title', 'View Section Item')
-@section('page-subtitle', 'Full detail of CMS item')
+@section('page-title', 'Section Item Details')
+@section('page-subtitle', 'CMS content overview')
 
 @section('content')
 
-<div class="max-w-full space-y-6 border-b ">
+<div class="max-w-5xl mx-auto">
 
-    {{-- CARD --}}
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+    {{-- MAIN CARD --}}
+    <div class="bg-gray-900 border border-gray-800/60 rounded-xl overflow-hidden">
 
         {{-- HEADER --}}
-        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-            <h2 class="text-white text-lg font-semibold">
-                {{ $item->title_en ?? 'No Title' }}
-            </h2>
+        <div class="flex justify-between items-center px-5 py-3 border-b border-gray-800/60">
 
-            <span class="text-xs px-2 py-1 rounded
-                {{ $item->is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400' }}">
+            <div>
+                <h2 class="text-lg font-semibold text-white">
+                    {{ $item->title_en ?? 'Untitled' }}
+                </h2>
+                <p class="text-xs text-gray-400">
+                    {{ $item->page }} / {{ $item->section_key }}
+                </p>
+            </div>
+
+            <span class="text-xs px-2 py-1 rounded border border-gray-800/60
+                {{ $item->is_active
+                    ? 'bg-green-500/10 text-green-400'
+                    : 'bg-red-500/10 text-red-400' }}">
                 {{ $item->is_active ? 'Active' : 'Inactive' }}
             </span>
-        </div>
-
-        {{-- BASIC INFO --}}
-        <div class="grid grid-cols-2 gap-4 text-sm border-b border-gray-800 pb-4">
-
-            <div>
-                <p class="text-gray-400">Page</p>
-                <p class="text-white">{{ $item->page }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-400">Section</p>
-                <p class="text-white">{{ $item->section_key }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-400">Component Type</p>
-                <p class="text-white">{{ $item->component_type }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-400">Sort Order</p>
-                <p class="text-white">{{ $item->sort_order }}</p>
-            </div>
 
         </div>
 
-        {{-- TITLE --}}
-        <div >
-            <p class="text-gray-400 text-sm">Title EN</p>
-            <p class="text-white">{{ $item->title_en }}</p>
-        </div>
+        {{-- BODY --}}
+        <div class="p-4 space-y-4">
 
-        <div class="border-b border-gray-800 pb-4">
-            <p class="text-gray-400 text-sm">Title KH</p>
-            <p class="text-white">{{ $item->title_km }}</p>
-        </div>
+            {{-- INFO GRID --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
 
-        {{-- DESCRIPTION --}}
-        <div >
-            <p class="text-gray-400 text-sm">Description EN</p>
-            <p class="text-white whitespace-pre-line">{{ $item->description_en }}</p>
-        </div>
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-2">
+                    <p class="text-gray-400 text-xs">Component</p>
+                    <p class="text-white">{{ $item->component_type ?? '-' }}</p>
+                </div>
 
-        <div class="border-b border-gray-800 pb-4">
-            <p class="text-gray-400 text-sm">Description KH</p>
-            <p class="text-white whitespace-pre-line">{{ $item->description_km }}</p>
-        </div>
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-2">
+                    <p class="text-gray-400 text-xs">Type</p>
+                    <p class="text-white">{{ $item->type ?? '-' }}</p>
+                </div>
 
-        {{-- IMAGE --}}
-        @if($item->image)
-            <div class="border-b border-gray-800 pb-4">
-                <p class="text-gray-400 text-sm mb-2">Image</p>
-                <img src="{{ asset('storage/' . $item->image) }}"
-                     class="rounded-lg border border-gray-800 max-h-64">
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-2">
+                    <p class="text-gray-400 text-xs">Sort</p>
+                    <p class="text-white">{{ $item->sort_order ?? 0 }}</p>
+                </div>
+
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-2">
+                    <p class="text-gray-400 text-xs">Page</p>
+                    <p class="text-white">{{ $item->page }}</p>
+                </div>
+
             </div>
-        @endif
 
-        {{-- ICON --}}
-        @if($item->icon)
-            <div class="border-b border-gray-800 pb-4">
-                <p class="text-gray-400 text-sm">Icon</p>
-                <p class="text-white">{{ $item->icon }}</p>
+            {{-- TITLE --}}
+            <div class="grid grid-cols-2 gap-3">
+
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs">Title EN</p>
+                    <p class="text-white text-sm">{{ $item->title_en }}</p>
+                </div>
+
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs">Title KH</p>
+                    <p class="text-white text-sm">{{ $item->title_km }}</p>
+                </div>
+
             </div>
-        @endif
 
-        {{-- LINK --}}
-        @if($item->link)
-            <div class="border-b border-gray-800 pb-4">
-                <p class="text-gray-400 text-sm">Link</p>
-                <a href="{{ $item->link }}"
-                   target="_blank"
-                   class="text-blue-400 hover:underline">
+            {{-- DESCRIPTION --}}
+            <div class="space-y-3">
+
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs mb-1">Description EN</p>
+                    <p class="text-white text-sm">{{ $item->description_en }}</p>
+                </div>
+
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs mb-1">Description KH</p>
+                    <p class="text-white text-sm">{{ $item->description_km }}</p>
+                </div>
+
+            </div>
+
+            {{-- MEDIA --}}
+            <div class="grid grid-cols-2 gap-3">
+
+                @if($item->image)
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs mb-2">Image</p>
+                    <img src="{{ asset('storage/' . $item->image) }}"
+                         class="h-32 w-full object-cover rounded border border-gray-800/60">
+                </div>
+                @endif
+
+                @if($item->icon)
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs">Icon</p>
+                    <p class="text-white text-sm break-all">{{ $item->icon }}</p>
+                </div>
+                @endif
+
+            </div>
+
+            {{-- LINK --}}
+            @if($item->link)
+            <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                <p class="text-gray-400 text-xs">Link</p>
+                <a href="{{ $item->link }}" target="_blank"
+                   class="text-blue-400 text-sm hover:underline break-all">
                     {{ $item->link }}
                 </a>
             </div>
-        @endif
+            @endif
 
-        {{-- BUTTON --}}
-        <div class="grid grid-cols-2 gap-4  pb-4">
+            {{-- BUTTON --}}
+            <div class="grid grid-cols-2 gap-3">
 
-            <div>
-                <p class="text-gray-400 text-sm">Button EN</p>
-                <p class="text-white">{{ $item->button_text_en }}</p>
-            </div>
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs">Button EN</p>
+                    <p class="text-white text-sm">{{ $item->button_text_en }}</p>
+                </div>
 
-            <div>
-                <p class="text-gray-400 text-sm">Button KH</p>
-                <p class="text-white">{{ $item->button_text_km }}</p>
+                <div class="bg-gray-800/30 border border-gray-800/60 rounded-lg p-3">
+                    <p class="text-gray-400 text-xs">Button KH</p>
+                    <p class="text-white text-sm">{{ $item->button_text_km }}</p>
+                </div>
+
             </div>
 
         </div>
 
-        {{-- META --}}
-        @if($item->meta)
-            <div>
-                <p class="text-gray-400 text-sm mb-2">Meta (JSON)</p>
-                <pre class="bg-gray-800 text-xs text-gray-300 p-3 rounded overflow-auto">
-                    {{ json_encode($item->meta, JSON_PRETTY_PRINT) }}
-                </pre>
-            </div>
-        @endif
-
         {{-- FOOTER --}}
-        <div class="flex justify-end gap-2 pt-4 border-t border-gray-800">
+        <div class="flex justify-end gap-2 px-4 py-3 border-t border-gray-800/60">
 
             <a href="{{ route('admin.section-items.index') }}"
-               class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">
+               class="px-3 py-1.5 text-sm bg-gray-800 hover:bg-gray-700 text-white rounded border border-gray-800/60">
                 Back
             </a>
 
-            {{-- <a href="{{ route('admin.section-items.edit', $item->id) }}"
-               class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+            <a href="{{ route('admin.section-items.edit', $item->id) }}"
+               class="px-3 py-1.5 text-sm bg-orange-500 hover:bg-orange-600 text-white rounded">
                 Edit
-            </a> --}}
+            </a>
 
         </div>
 
