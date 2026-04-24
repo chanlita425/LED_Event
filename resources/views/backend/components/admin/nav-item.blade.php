@@ -1,4 +1,4 @@
-@props(['route' => '#', 'icon' => 'grid'])
+@props(['route' => '#', 'icon' => null])
 
 @php
     try {
@@ -17,6 +17,7 @@
               : 'text-gray-400 hover:text-gray-200 hover:bg-white/5' }}">
 
     {{-- Icon --}}
+    @if($icon)
     <span class="w-4 h-4 flex-shrink-0 {{ $active ? 'text-orange-400' : 'text-gray-500 group-hover:text-gray-300' }}">
         @if($icon === 'grid')
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -84,6 +85,7 @@
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><circle cx="12" cy="12" r="10"/></svg>
         @endif
     </span>
+    @endif
 
     <span class="truncate">{{ $slot }}</span>
 

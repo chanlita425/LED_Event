@@ -21,4 +21,14 @@ class Setting extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public static function getValue(string $group, string $key, string $locale = 'en'): ?string
+    {
+        $column = $locale === 'km' ? 'value_km' : 'value_en';
+
+        return static::where('group_name', $group)
+            ->where('key_name', $key)
+            ->where('is_active', true)
+            ->value($column);
+    }
 }

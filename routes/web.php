@@ -2,92 +2,87 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Auth\SessionController;
+// use App\Http\Controllers\Admin\Auth\ProfileController;
+use App\Http\Controllers\Admin\Auth\UserController;
+use App\Http\Controllers\Admin\Cms\MenuController;
+use App\Http\Controllers\Admin\Cms\MenuGroupController;
+use App\Http\Controllers\Admin\Cms\PageController;
+use App\Http\Controllers\Admin\Cms\PageSectionController;
+use App\Http\Controllers\Admin\Cms\SectionItemController;
+use App\Http\Controllers\Admin\Cms\MediaFileController;
+use App\Http\Controllers\Admin\Cms\SettingController;
+use App\Http\Controllers\Admin\Contact\ContactInfoController;
+use App\Http\Controllers\Admin\Contact\ContactMessageController;
+use App\Http\Controllers\Admin\Log\ActivityLogController;
 
 
-// ================== Root ==================
+// ================== Auth ==================
 
-Route::get('/admin', fn() => redirect()->route('admin.dashboard'))->name('admin.home');
+Route::get('/login', [SessionController::class, 'create'])->name('login');
+Route::post('/login', [SessionController::class, 'store']);
+Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 
-// ================== Logout ==================
-
-Route::post('/logout', function () {
-    return redirect()->route('admin.dashboard');
-})->name('logout');
 
 // ================== Legal (standalone) ==================
 
-Route::get('/privacy-policy', fn() => view('backend.page.privacy-policy'))->name('privacy');
-Route::get('/terms-of-service', fn() => view('backend.page.terms'))->name('terms');
+    Route::get('/privacy-policy', function () {
+        $page = \App\Models\Page::where('slug', 'privacy-policy')->firstOrFail();
+        return view('backend.page.privacy-policy', compact('page'));
+    })->name('privacy');
 
+    Route::get('/terms-of-service', function () {
+        $page = \App\Models\Page::where('slug', 'terms-of-service')->firstOrFail();
+        return view('backend.page.terms', compact('page'));
+    })->name('terms');
 
 // ================== Admin ==================
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::get('/', fn() => redirect()->route('admin.dashboard'))->name('home');
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth'])
+    ->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // ── Home ──────────────────────────────────────────────
-    Route::prefix('home')->name('home.')->group(function () {
-        Route::get('/why-led-event',  fn() => view('backend.page.dashboard'))->name('why-led-event.index');
-        Route::get('/our-services',   fn() => view('backend.page.dashboard'))->name('our-services.index');
-        Route::get('/feature-project',fn() => view('backend.page.dashboard'))->name('feature-project.index');
-        Route::get('/how-we-work',    fn() => view('backend.page.dashboard'))->name('how-we-work.index');
-    });
+    // ── CMS ───────────────────────────────────────────────
+    Route::resource('menu-groups',   MenuGroupController::class);
+    Route::resource('menus',         MenuController::class)->except(['show']);
+    Route::resource('pages',         PageController::class);
+    Route::resource('page-sections', PageSectionController::class);
 
-    // ── Services ──────────────────────────────────────────
-    Route::prefix('services')->name('services.')->group(function () {
-        Route::get('/led-screen-rental',      fn() => view('backend.page.dashboard'))->name('led-screen-rental.index');
-        Route::get('/stage-rental',           fn() => view('backend.page.dashboard'))->name('stage-rental.index');
-        Route::get('/sound-system',           fn() => view('backend.page.dashboard'))->name('sound-system.index');
-        Route::get('/lighting-production',    fn() => view('backend.page.dashboard'))->name('lighting-production.index');
-        Route::get('/full-event-production',  fn() => view('backend.page.dashboard'))->name('full-event-production.index');
-    });
 
-    // ── Projects ──────────────────────────────────────────
-    Route::prefix('projects')->name('projects.')->group(function () {
-        Route::get('/all',       fn() => view('backend.page.dashboard'))->name('all.index');
-        Route::get('/concert',   fn() => view('backend.page.dashboard'))->name('concert.index');
-        Route::get('/corporate', fn() => view('backend.page.dashboard'))->name('corporate.index');
-        Route::get('/festival',  fn() => view('backend.page.dashboard'))->name('festival.index');
-        Route::get('/outdoor',   fn() => view('backend.page.dashboard'))->name('outdoor.index');
-    });
+    // ── section ──────────────────────────
+    Route::resource('section-items', SectionItemController::class);
+    Route::get('/get-groups/{id}', [SectionItemController::class, 'getGroups'])->name('get-groups');
 
-    // ── Why Us ────────────────────────────────────────────
-    Route::prefix('why-us')->name('whyus.')->group(function () {
-        Route::get('/system',    fn() => view('backend.page.dashboard'))->name('system.index');
-        Route::get('/backup',    fn() => view('backend.page.dashboard'))->name('backup.index');
-        Route::get('/team',      fn() => view('backend.page.dashboard'))->name('team.index');
-        Route::get('/execution', fn() => view('backend.page.dashboard'))->name('execution.index');
-        Route::get('/experience',fn() => view('backend.page.dashboard'))->name('experience.index');
-    });
+    Route::resource('media-files',   MediaFileController::class)->only(['index', 'store', 'show', 'destroy']);
 
-    // ── Media ─────────────────────────────────────────────
-    Route::prefix('media')->name('media.')->group(function () {
-        Route::get('/event-video',   fn() => view('backend.page.dashboard'))->name('event-video.index');
-        Route::get('/gallery',       fn() => view('backend.page.dashboard'))->name('gallery.index');
-        Route::get('/behind-scenes', fn() => view('backend.page.dashboard'))->name('behind-scenes.index');
-    });
 
-    // ── Blog ──────────────────────────────────────────────
-    Route::prefix('blog')->name('blog.')->group(function () {
-        Route::get('/articles',        fn() => view('backend.page.dashboard'))->name('articles.index');
-        Route::get('/event-guides',    fn() => view('backend.page.dashboard'))->name('event-guides.index');
-        Route::get('/led-knowledge',   fn() => view('backend.page.dashboard'))->name('led-knowledge.index');
-        Route::get('/production-tips', fn() => view('backend.page.dashboard'))->name('production-tips.index');
-    });
+     // ── SETTINGS ──────────────────────────
+    Route::resource('settings', SettingController::class);
+    Route::delete('/admin/settings/{id}', [SettingController::class, 'destroy'])
+        ->name('admin.settings.destroy');
+    Route::put('settings/{setting}/quick-update', [SettingController::class, 'quickUpdate'])
+        ->name('settings.quick-update');
 
-    // ── Products ──────────────────────────────────────────
-    Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/fox-effects', fn() => view('backend.page.dashboard'))->name('fox-effects.index');
-        Route::get('/led-display', fn() => view('backend.page.dashboard'))->name('led-display.index');
-    });
+
+
+    // ── Users ─────────────────────────────────────────────
+    Route::resource('users', UserController::class);
+    Route::resource('sessions', SessionController::class);
 
     // ── Contact ───────────────────────────────────────────
-    Route::prefix('contact')->name('contact.')->group(function () {
-        Route::get('/form-info',    fn() => view('backend.page.dashboard'))->name('form-info.index');
-        Route::get('/contact-info', fn() => view('backend.page.dashboard'))->name('contact-info.index');
-    });
+    Route::get('/contact-info',    [ContactInfoController::class, 'index'])->name('contact-info.index');
+    Route::put('/contact-info',    [ContactInfoController::class, 'update'])->name('contact-info.update');
+    Route::resource('contact-messages', ContactMessageController::class)->only(['index', 'show', 'update', 'destroy']);
+
+    // ── Logs ──────────────────────────────────────────────
+    Route::resource('activity-logs', ActivityLogController::class)->only(['index', 'show', 'destroy']);
+    Route::delete('/activity-logs',  [ActivityLogController::class, 'clear'])->name('activity-logs.clear');
 
 });
 

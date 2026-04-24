@@ -11,8 +11,8 @@ class SectionItem extends Model
     protected $fillable = [
         'section_key',
         'component_type',
-        'group_title',
-        'page',
+        'group_title',  
+        'page',   
         'title_en',
         'title_km',
         'description_en',
@@ -30,6 +30,7 @@ class SectionItem extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'meta'      => 'array',
     ];
 
     /*

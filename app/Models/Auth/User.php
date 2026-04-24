@@ -3,14 +3,21 @@
 namespace App\Models\Auth;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Auth\Session;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     protected $table = 'users';
 
+    /*
+    |----------------------------------------
+    | FILLABLE
+    |----------------------------------------
+    */
     protected $fillable = [
         'name',
         'email',
@@ -22,11 +29,21 @@ class User extends Authenticatable
         'last_login_at',
     ];
 
+    /*
+    |----------------------------------------
+    | HIDDEN
+    |----------------------------------------
+    */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /*
+    |----------------------------------------
+    | CASTS
+    |----------------------------------------
+    */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
@@ -37,7 +54,6 @@ class User extends Authenticatable
     | RELATIONSHIPS
     |----------------------------------------
     */
-
     public function sessions()
     {
         return $this->hasMany(Session::class);
