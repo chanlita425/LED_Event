@@ -117,63 +117,63 @@ class SettingController extends Controller
 
 
     public function create()
-{
-    $groups = Setting::select('group_name')
-        ->distinct()
-        ->pluck('group_name');
+    {
+        $groups = Setting::select('group_name')
+            ->distinct()
+            ->pluck('group_name');
 
-    $types = [
-        'text',
-        'image',
-        'textarea',
-        'phone',
-        'email'
-    ];
+        $types = [
+            'text',
+            'image',
+            'textarea',
+            'phone',
+            'email'
+        ];
 
-    return view('backend.page.cms.settings.create', compact('groups', 'types'));
-}
+        return view('backend.page.cms.settings.create', compact('groups', 'types'));
+    }
 
     public function store(Request $request)
-{
-    $data = $request->validate([
-        'group_name' => 'required|string|max:255',
-        'key_name'   => 'required|string|max:255|unique:settings,key_name',
-        'value_en'   => 'nullable|string',
-        'value_km'   => 'nullable|string',
-        'type'       => 'nullable|string|max:255',
-        'sort_order' => 'nullable|integer',
-        'is_active'  => 'boolean',
-        'file'       => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
-    ]);
+    {
+        $data = $request->validate([
+            'group_name' => 'required|string|max:255',
+            'key_name'   => 'required|string|max:255|unique:settings,key_name',
+            'value_en'   => 'nullable|string',
+            'value_km'   => 'nullable|string',
+            'type'       => 'nullable|string|max:255',
+            'sort_order' => 'nullable|integer',
+            'is_active'  => 'boolean',
+            'file'       => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
+        ]);
 
-    // IMAGE UPLOAD
-    if ($request->hasFile('file')) {
-        $data['value_en'] = $request->file('file')->store('settings', 'public');
-        $data['type'] = 'image';
+        // IMAGE UPLOAD
+        if ($request->hasFile('file')) {
+            $data['value_en'] = $request->file('file')->store('settings', 'public');
+            $data['type'] = 'image';
+        }
+
+        // DEFAULT STATUS
+        $data['is_active'] = $request->boolean('is_active', true);
+
+        Setting::create($data);
+
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Setting created successfully.');
     }
 
-    // DEFAULT STATUS
-    $data['is_active'] = $request->boolean('is_active', true);
+    public function destroy(string $id)
+    {
+        $setting = Setting::findOrFail($id);
 
-    Setting::create($data);
+        // If it's an image, delete file from storage
+        if ($setting->type === 'image' && $setting->value_en) {
+            Storage::disk('public')->delete($setting->value_en);
+        }
 
-    return redirect()->route('admin.settings.index')
-        ->with('success', 'Setting created successfully.');
-}
+        // Delete database record
+        $setting->delete();
 
-public function destroy(string $id)
-{
-    $setting = Setting::findOrFail($id);
-
-    // If it's an image, delete file from storage
-    if ($setting->type === 'image' && $setting->value_en) {
-        Storage::disk('public')->delete($setting->value_en);
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Setting deleted successfully.');
     }
-
-    // Delete database record
-    $setting->delete();
-
-    return redirect()->route('admin.settings.index')
-        ->with('success', 'Setting deleted successfully.');
-}
 }
