@@ -8,11 +8,40 @@ use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $messages = ContactMessage::latest('created_at')->paginate(20);
+        $statuses = ['new', 'read', 'replied', 'archived'];
+        $activeStatus = $request->query('status');
 
-        return view('backend.page.contact.contact-messages.index', compact('messages'));
+        $messagesQuery = ContactMessage::query();
+
+        if ($activeStatus && in_array($activeStatus, $statuses, true)) {
+            $messagesQuery->where('status', $activeStatus);
+        }
+
+        $messages = $messagesQuery
+            ->orderByDesc('created_at')
+            ->paginate(20)
+            ->withQueryString();
+
+        $counts = collect($statuses)->mapWithKeys(function (string $status) {
+            return [$status => ContactMessage::where('status', $status)->count()];
+        });
+
+        $counts['all'] = ContactMessage::count();
+
+        $selectedId = $request->query('message');
+        $selectedMessage = null;
+
+        if ($selectedId) {
+            $selectedMessage = ContactMessage::find($selectedId);
+        }
+
+        if (! $selectedMessage && $messages->count() > 0) {
+            $selectedMessage = $messages->first();
+        }
+
+        return view('backend.page.contact.contact-messages.index', compact('messages', 'selectedMessage', 'counts', 'statuses', 'activeStatus'));
     }
 
     public function show(string $id)
@@ -23,7 +52,7 @@ class ContactMessageController extends Controller
             $message->update(['status' => 'read']);
         }
 
-        return view('backend.page.contact.message-show', compact('message'));
+        return redirect()->route('admin.contact-messages.index', ['message' => $message->id]);
     }
 
     public function update(Request $request, string $id)

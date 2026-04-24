@@ -206,6 +206,11 @@
                                             Save
                                         </button>
 
+                                                                                 <a href="{{ route('admin.settings.edit', $setting->id) }}"
+                                                                                     class="px-3 py-1 text-xs bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/30 mr-2">
+                                                                                        Edit
+                                                                                </a>
+
                                           <button type="button"
                                             onclick="openDeleteModal(
                                                 '{{ route('admin.settings.destroy', $setting->id) }}',

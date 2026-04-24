@@ -3,23 +3,19 @@
 namespace App\Http\Controllers\Admin\Contact;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact\ContactInfo;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class ContactInfoController extends Controller
 {
     public function index()
     {
-         $info = ContactInfo::first();
-
-        if (!$info) {
-            $info = new ContactInfo();
-        }
+        $info = ContactInfo::first() ?? new ContactInfo();
 
         return view('backend.page.contact.contact-info.index', compact('info'));
     }
 
-    public function storeOrUpdate(Request $request)
+    public function update(Request $request)
     {
         $data = $request->validate([
             'address'       => 'nullable|string',
@@ -38,5 +34,10 @@ class ContactInfoController extends Controller
         }
 
         return redirect()->back()->with('success', 'Contact info updated successfully.');
+    }
+
+    public function storeOrUpdate(Request $request)
+    {
+        return $this->update($request);
     }
 }

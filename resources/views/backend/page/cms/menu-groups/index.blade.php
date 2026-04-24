@@ -60,12 +60,18 @@
                             {{ $group->sort_order }}
                         </td>
 
-                        <td class="px-4 py-3 text-center">
+                        <td class="px-4 py-3 text-center space-x-2">
 
                             <a href="{{ route('admin.menu-groups.edit', $group->id) }}"
                                class="px-3 py-1 text-xs bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/30">
                                 Edit
                             </a>
+
+                            <button type="button"
+                                    onclick="openDeleteModal('{{ route('admin.menu-groups.destroy', $group->id) }}', '{{ $group->name_en }}')"
+                                    class="px-3 py-1 text-xs bg-red-500/20 text-red-400 rounded hover:bg-red-500/30">
+                                Delete
+                            </button>
 
                         </td>
 
@@ -93,5 +99,8 @@
     </div>
 
 </div>
+
+{{-- DELETE MODAL --}}
+@include('backend.components.destroy')
 
 @endsection

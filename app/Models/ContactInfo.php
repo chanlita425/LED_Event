@@ -8,7 +8,7 @@ class ContactInfo extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'contact_info';
+    protected $table = 'contact_infos';
 
     protected $fillable = ['address', 'email', 'phone_1', 'phone_2', 'working_hours'];
 }

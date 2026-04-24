@@ -10,7 +10,7 @@ class ContactMessage extends Model
 
     protected $fillable = [
         'first_name', 'last_name', 'email',
-        'project_type', 'message', 'status',
+        'project_type', 'message', 'status', 'created_at',
     ];
 
     protected $casts = ['created_at' => 'datetime'];

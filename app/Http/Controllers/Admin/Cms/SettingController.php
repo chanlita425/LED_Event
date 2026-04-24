@@ -133,6 +133,25 @@ class SettingController extends Controller
         return view('backend.page.cms.settings.create', compact('groups', 'types'));
     }
 
+    public function edit(string $id)
+    {
+        $setting = Setting::findOrFail($id);
+
+        $groups = Setting::select('group_name')
+            ->distinct()
+            ->pluck('group_name');
+
+        $types = [
+            'text',
+            'image',
+            'textarea',
+            'phone',
+            'email'
+        ];
+
+        return view('backend.page.cms.settings.edit', compact('setting', 'groups', 'types'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
