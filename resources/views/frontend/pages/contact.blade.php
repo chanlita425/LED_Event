@@ -36,29 +36,30 @@
                 </p>
 
                 {{-- FORM --}}
-                <form action="" class="flex flex-col gap-3">
-
+                <form method="POST" action="{{ route('contact.store') }}" class="flex flex-col gap-3">
+                    @csrf
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                        <input type="text" placeholder="First Name"
+                        <input type="text" name="first_name" placeholder="First Name"
                             class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
 
-                        <input type="text" placeholder="Last Name"
+                        <input type="text" name="last_name" placeholder="Last Name"
                             class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
                     </div>
 
-                    <input type="email" placeholder="Email Address"
+                    <input type="email" name="email" placeholder="Email Address"
                         class="outline-none border border-white px-3 py-2 w-full bg-transparent text-white">
 
-                    <select name="project_type" id="project_type" required
+                    <select name="project_type" required
                         class="outline-none border border-white px-3 py-2 w-full bg-black text-gray-400">
 
                         <option value="" disabled selected hidden>Project Type</option>
-                        <option value="web">Web Development</option>
-                        <option value="mobile">Mobile App</option>
-                        <option value="design">Design</option>
+                        <option value="concert_event">Concert Event</option>
+                        <option value="corporate_event">Corporate Event</option>
+                        <option value="festival_event">Festival Event</option>
+                        <option value="outdoor_event">Outdoor Event</option>
                     </select>
 
-                    <textarea rows="5" placeholder="Your Message"
+                    <textarea name="message" rows="5" placeholder="Your Message"
                         class="w-full outline-none border border-white px-3 py-2 bg-transparent text-white"></textarea>
 
                     <button class="bg-white w-full text-black font-bold py-2 hover:bg-gray-200 transition">
@@ -118,7 +119,10 @@
                     </div>
                 </div>
 
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.5699549247474!2d104.87179573768563!3d11.542808700220517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095100314815cd%3A0x37b11af29633e434!2sA2Z%20Business%20Center!5e0!3m2!1sen!2skh!4v1776927909252!5m2!1sen!2skh"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.5699549247474!2d104.87179573768563!3d11.542808700220517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095100314815cd%3A0x37b11af29633e434!2sA2Z%20Business%20Center!5e0!3m2!1sen!2skh!4v1776927909252!5m2!1sen!2skh"
+                    style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    class="w-full h-full"></iframe>
 
             </div>
 

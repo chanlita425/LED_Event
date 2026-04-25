@@ -45,5 +45,12 @@ class AppServiceProvider extends ServiceProvider
                 ->with('logo',        Setting::getValue('led', 'logo'))
                 ->with('legalPages',  $legalPages);
         });
+
+         View::composer('*', function ($view) {
+        $view->with(
+            'contact',
+            Setting::where('group_name', 'social')->get()
+        );
+    });
     }
 }

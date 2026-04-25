@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="relative h-screen flex items-center justify-center bg-cover bg-center px-4"
-        style="background-image: url('{{ asset('images/hero-section2.png') }}');">
+        style="background-image: url('{{ asset('storage/' . $section->media_url)}}');">
 
         <!-- DARK OVERLAY -->
         <div class="absolute inset-0 bg-black/50"></div>
@@ -13,15 +13,11 @@
             <h1
                 class="uppercase leading-tight
                    text-4xl sm:text-6xl md:text-7xl lg:text-[90px] xl:text-[120px]">
-                <span class="font-bold">why</span> choose us
+                <span class="font-bold">{{ $activeType ?? $section->title_en }}</span>
             </h1>
 
-            <p class="text-sm sm:text-base md:text-lg lg:text-[20px]">
-                The Most Reliable Event Production
-            </p>
-
-            <p class="text-sm sm:text-base md:text-lg lg:text-[20px]">
-                System in Cambodia
+            <p class="mt-4 max-w-2xl mx-auto text-center leading-relaxed">
+                {{ $section->subtitle_en }}
             </p>
 
             <a href="/contact" class="w-[183px] h-[44px] flex items-center justify-center cursor-pointer bg-black">
@@ -45,188 +41,134 @@
 
         {{-- responsive mobile --}}
         <div class="flex flex-col items-center gap-5 md:hidden my-10">
-            {{-- system --}}
-            <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                <img src="{{ asset('icons/settings-gears.png') }}"
-                    class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                <p></p>
-                <p class="text-[20px]">System</p>
-                <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt.</p>
-            </div>
 
+            @foreach ($us as $item)
+                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                    <img src="{{ Storage::url($item->icon) }}"
+                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
+                    <p></p>
+                    <p class="text-[20px]">{{ $item->title_en }}</p>
+                    <p class="text-[12px] line-clamp-4">{{ $item->description_en }}</p>
+                </div>
+            @endforeach
 
-            {{-- backup --}}
-            <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                <img src="{{ asset('icons/cloud-sync.png') }}"
-                    class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                <p></p>
-                <p class="text-[20px]">Backup</p>
-                <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt.</p>
-            </div>
-
-
-            {{-- team --}}
-            <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                <img src="{{ asset('icons/multiple-users-silhouette.png') }}"
-                    class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                <p></p>
-                <p class="text-[20px]">Team</p>
-                <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt.</p>
-            </div>
-
-
-            {{-- team --}}
-            <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                <img src="{{ asset('icons/high-quality.png') }}"
-                    class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                <p></p>
-                <p class="text-[20px]">Execution</p>
-                <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt.</p>
-            </div>
-
-
-            {{-- team --}}
-            <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                <img src="{{ asset('icons/badge.png') }}"
-                    class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                <p></p>
-                <p class="text-[20px]">Experience</p>
-                <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt.</p>
-            </div>
 
         </div>
 
         {{-- responsive tablet --}}
         <div class="hidden md:block xl:hidden px-5 py-10">
-            <div class="grid md:grid-cols-3  items-center max-w-6xl mx-auto">
+            <div class="max-w-6xl mx-auto flex flex-col">
 
-                <!-- ROW 1 LEFT -->
-                <div
-                    class="w-full md:w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative md:translate-y-0">
-                    <img src="{{ asset('icons/settings-gears.png') }}" class="absolute top-5 right-5 w-[38px] invert" />
-                    <p class="text-[20px]">System</p>
-                    <p class="text-[12px]">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                    </p>
+                {{-- ROW 1 --}}
+                <div class="grid grid-cols-3">
+                    @foreach ($us->take(2) as $item)
+                        <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                            <img src="{{ Storage::url($item->icon) }}" class="absolute top-5 right-5 w-[38px] invert" />
+
+                            <p class="text-[20px]">{{ $item->title_en }}</p>
+                            <p class="text-[12px] line-clamp-4">{{ $item->description_en }}</p>
+                        </div>
+
+                        {{-- add empty space ONLY if not last item --}}
+                        @if (!$loop->last)
+                            <div class="w-[239px] h-[239px]"></div>
+                        @endif
+                    @endforeach
                 </div>
 
-                <!-- ROW 1 GAP -->
-                <div class="hidden md:block"></div>
+                {{-- ROW 2 (center single) --}}
+                <div class="grid grid-cols-3">
 
-                <!-- ROW 1 RIGHT -->
-                <div class="w-full md:w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/cloud-sync.png') }}" class="absolute top-5 right-5 w-[38px] invert" />
-                    <p class="text-[20px]">Backup</p>
-                    <p class="text-[12px]">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                    </p>
+                    @if ($us->get(2))
+                        <div class="w-[239px] h-[239px]"></div>
+                        <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                            <img src="{{ Storage::url($us->get(2)->icon) }}"
+                                class="absolute top-5 right-5 w-[38px] invert" />
+
+                            <p class="text-[20px]">{{ $us->get(2)->title_en }}</p>
+                            <p class="text-[12px] line-clamp-4">{{ $us->get(2)->description_en }}</p>
+                        </div>
+                        <div class="w-[239px] h-[239px]"></div>
+                    @endif
                 </div>
 
-                <!-- ROW 2 LEFT GAP -->
-                <div class="hidden md:block"></div>
+                {{-- ROW 3 --}}
+                <div class="grid grid-cols-3">
+                    @foreach ($us->skip(3)->take(2) as $item)
+                        <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                            <img src="{{ Storage::url($item->icon) }}" class="absolute top-5 right-5 w-[38px] invert" />
 
-                <!-- ROW 2 CENTER -->
-                <div class="w-full md:w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/multiple-users-silhouette.png') }}"
-                        class="absolute top-5 right-5 w-[38px] invert" />
-                    <p class="text-[20px]">Team</p>
-                    <p class="text-[12px]">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                    </p>
+                            <p class="text-[20px]">{{ $item->title_en }}</p>
+                            <p class="text-[12px] line-clamp-4">{{ $item->description_en }}</p>
+                        </div>
+                        <div class="w-[239px] h-[239px]"></div>
+                    @endforeach
                 </div>
 
-                <!-- ROW 2 RIGHT GAP -->
-                <div class="hidden md:block"></div>
-
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/high-quality.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Execution</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
-                <div class="w-[239px] h-[239px]"></div>
-
-                {{-- experience --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/badge.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Experience</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
             </div>
-
         </div>
 
         {{-- responsive 1280 up --}}
         <div class="hidden xl:block">
-            {{-- row 1 --}}
-            <div class="flex items-center justify-between max-w-6xl mx-auto">
-                {{-- system --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/settings-gears.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">System</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
-                <div class="w-[239px] h-[239px]"></div>
 
-                {{-- backup --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/cloud-sync.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Backup</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
-                <div class="w-[239px] h-[239px]"></div>
+            {{-- ROW 1 (3 cards) --}}
+            <div class="grid grid-cols-5">
+                @foreach ($us->take(3) as $item)
+                    <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                        <img src="{{ Storage::url($item->icon) }}" class="absolute top-5 right-5 w-[38px] invert" />
 
-                {{-- team --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/multiple-users-silhouette.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Team</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
+                        <p class="text-[20px]">{{ $item->title_en }}</p>
+                        <p class="text-[12px] line-clamp-4">{{ $item->description_en }}</p>
+                    </div>
+
+                    @if (!$loop->last)
+                        <div></div>
+                    @endif
+                @endforeach
             </div>
-            {{-- row 2 --}}
-            <div class="flex items-center justify-between max-w-6xl mx-auto">
-                <div class="w-[239px] h-[239px]"></div>
-                {{-- execution --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/high-quality.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Execution</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
-                <div class="w-[239px] h-[239px]"></div>
 
-                {{-- experience --}}
-                <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
-                    <img src="{{ asset('icons/badge.png') }}"
-                        class="absolute top-5 right-5 w-[38.78px] h-auto filter brightness-0 invert" />
-                    <p></p>
-                    <p class="text-[20px]">Experience</p>
-                    <p class="text-[12px]">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                        euismod tincidunt.</p>
-                </div>
-                <div class="w-[239px] h-[239px]"></div>
+            {{-- ROW 2 (next 2 cards centered style) --}}
+            <div class="grid grid-cols-5">
+
+                @php
+                    $row2 = $us->skip(3)->take(2)->values();
+                @endphp
+
+                {{-- left empty --}}
+                <div></div>
+
+                {{-- card 1 (center-left) --}}
+                @if (isset($row2[0]))
+                    <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                        <img src="{{ Storage::url($row2[0]->icon) }}" class="absolute top-5 right-5 w-[38px] invert" />
+
+                        <p class="text-[20px]">{{ $row2[0]->title_en }}</p>
+                        <p class="text-[12px] line-clamp-4">{{ $row2[0]->description_en }}</p>
+                    </div>
+                @else
+                    <div></div>
+                @endif
+
+                {{-- middle empty --}}
+                <div></div>
+
+                {{-- card 2 (center-right) --}}
+                @if (isset($row2[1]))
+                    <div class="w-[239px] h-[239px] bg-black flex flex-col justify-end p-5 gap-3 relative">
+                        <img src="{{ Storage::url($row2[1]->icon) }}" class="absolute top-5 right-5 w-[38px] invert" />
+
+                        <p class="text-[20px]">{{ $row2[1]->title_en }}</p>
+                        <p class="text-[12px] line-clamp-4">{{ $row2[1]->description_en }}</p>
+                    </div>
+                @else
+                    <div></div>
+                @endif
+
+                {{-- right empty --}}
+                <div></div>
+
             </div>
+
         </div>
     </div>
 @endsection

@@ -26,6 +26,28 @@ class ContactMessageController extends Controller
         return view('backend.page.contact.message-show', compact('message'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'project_type' => 'required',
+            'message' => 'required',
+        ]);
+
+        ContactMessage::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'project_type' => $request->project_type,
+            'message' => $request->message,
+            'status' => 'new',
+        ]);
+
+        return back()->with('success', 'Message sent successfully!');
+    }
+
     public function update(Request $request, string $id)
     {
         $message = ContactMessage::findOrFail($id);

@@ -39,8 +39,6 @@
 
 <body>
 
-
-
     <!-- MOBILE MENU PANEL -->
     <div id="mobileMenu"
         class="fixed top-0 right-0 w-full h-full bg-white z-100 translate-x-full transition-transform duration-300">
@@ -84,10 +82,21 @@
                 </button>
 
                 <div id="services-menu" class="submenu hidden mt-4 flex flex-col gap-3 text-lg pl-3">
-                    <a href="/services#led">LED Screen Rental</a>
-                    <a href="/services#stage">Stage Rental</a>
-                    <a href="/services#sound">Sound System</a>
-                    <a href="/services#lighting">Lighting</a>
+
+                    <a href="{{ route('services') }}">All Services</a>
+
+                    <a href="{{ route('services', ['type' => 'LED Screen']) }}">
+                        LED Screen Retail
+                    </a>
+
+                    <a href="{{ route('services', ['type' => 'Stage']) }}">
+                        Stage Rental
+                    </a>
+
+                    <a href="{{ route('services', ['type' => 'Lighting']) }}">
+                        Lighting Production
+                    </a>
+
                 </div>
             </div>
 
@@ -116,11 +125,13 @@
                 </button>
 
                 <div id="media-menu" class="submenu hidden mt-4 flex flex-col gap-3 text-lg pl-3">
-                    <a href="/projects">Evnent Videos</a>
-                    <a href="/projects#concert">Gallery</a>
-                    <a href="/projects#corporate">Behind the Scenes</a>
+                    <a href="/media#event_video">Event Videos</a>
+                    <a href="/media#gallery">Gallery</a>
+                    <a href="/media#behind_the_scenes">Behind the Scenes</a>
                 </div>
             </div>
+
+
 
 
             <!-- blog -->
@@ -130,10 +141,23 @@
                 </button>
 
                 <div id="blog-menu" class="submenu hidden mt-4 flex flex-col gap-3 text-lg pl-3">
-                    <a href="/projects">All Articles</a>
-                    <a href="/projects#concert">Event Grides</a>
-                    <a href="/projects#corporate">LED Knowledge</a>
-                    <a href="/projects#corporate">Production Tips</a>
+
+                    <a href="{{ route('blog') }}">
+                        All Articles
+                    </a>
+
+                    <a href="{{ route('blog', ['type' => 'Event Guides']) }}">
+                        Event Guides
+                    </a>
+
+                    <a href="{{ route('blog', ['type' => 'LED Knowledge']) }}">
+                        LED Knowledge
+                    </a>
+
+                    <a href="{{ route('blog', ['type' => 'Production Tips']) }}">
+                        Production Tips
+                    </a>
+
                 </div>
             </div>
 
@@ -145,7 +169,7 @@
                 </button>
 
                 <div id="products-menu" class="submenu hidden mt-4 flex flex-col gap-3 text-lg pl-3">
-                    <a href="/projects">Fog & Effects</a>
+                    <a href="https://ledmedia.com.kh/" target="_blank" rel="noopener noreferrer">Fog & Effects</a>
                     <a href="https://ledmedia.com.kh/" target="_blank" rel="noopener noreferrer"
                         class="hover:opacity-70">
                         LED Display Sales
@@ -167,10 +191,10 @@
             <!-- HEADER TOP -->
             <div class="w-full lg:border-none  border-white border-b-1">
                 <div class="max-w-6xl mx-auto py-5 px-6 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
+                    <a href="{{ route('home') }}" class="flex items-center gap-3">
                         <img src="{{ asset('images/logo.png') }}" alt="LED Events Logo" class="h-10">
                         <p class="uppercase "> <span class="font-bold">led</span> events </p>
-                    </div>
+                    </a>
                     {{-- hambuger menu --}}
                     <div class="block lg:hidden">
                         <i onclick="toggleMenu()" class="fa-solid fa-bars text-2xl cursor-pointer"></i>
@@ -203,15 +227,30 @@
                         <!-- OTHER LINKS -->
                         <li class="group">
                             <a class="nav-link" href="{{ route('services') }}">services</a>
+
                             <div
-                                class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
+                                class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                    <a href="{{ route('home') }}#why-us" class="hover:opacity-70">LED Screen
-                                        Retail</a>
-                                    <a href="{{ route('home') }}#services" class="hover:opacity-70">Stage Rental</a>
-                                    <a href="#" class="hover:opacity-70">Sound System</a>
-                                    <a href="#" class="hover:opacity-70">Lighting Production</a>
-                                    <a href="#" class="hover:opacity-70">Full Event Production</a>
+
+                                    <a href="{{ route('services') }}" class="hover:opacity-70">
+                                        All Services
+                                    </a>
+
+                                    <a href="{{ route('services', ['type' => 'LED Screen']) }}"
+                                        class="hover:opacity-70">
+                                        LED Screen Retail
+                                    </a>
+
+                                    <a href="{{ route('services', ['type' => 'Stage']) }}" class="hover:opacity-70">
+                                        Stage Rental
+                                    </a>
+
+                                    <a href="{{ route('services', ['type' => 'Lighting']) }}"
+                                        class="hover:opacity-70">
+                                        Lighting Production
+                                    </a>
+
                                 </div>
                             </div>
                         </li>
@@ -219,11 +258,21 @@
                             <div
                                 class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                    <a href="{{ route('home') }}#why-us" class="hover:opacity-70">All projects</a>
-                                    <a href="{{ route('home') }}#services" class="hover:opacity-70">Concert Events</a>
-                                    <a href="#" class="hover:opacity-70">Coporate Events</a>
-                                    <a href="#" class="hover:opacity-70">Festival Events</a>
-                                    <a href="#" class="hover:opacity-70">Outdoor Events</a>
+                                    <a href="{{ route('projects') }}" class="nav-link">All Projects</a>
+                                    <a href="{{ route('projects', ['type' => 'Concert Events']) }}" class="nav-link">
+                                        Concert Events
+                                    </a>
+                                    <a href="{{ route('projects', ['type' => 'Corporate Events']) }}"
+                                        class="nav-link">
+                                        Corporate Events
+                                    </a>
+                                    <a href="{{ route('projects', ['type' => 'Festival Events']) }}"
+                                        class="nav-link">
+                                        Festival Events
+                                    </a>
+                                    <a href="{{ route('projects', ['type' => 'Outdoor Events']) }}" class="nav-link">
+                                        Outdoor Events
+                                    </a>
                                 </div>
                             </div>
                         </li>
@@ -233,21 +282,40 @@
                             <div
                                 class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                    <a href="/why-us" class="hover:opacity-70">Event Videos</a>
-                                    <a href="/services" class="hover:opacity-70">Gallery</a>
-                                    <a href="#" class="hover:opacity-70">Behind the Scenes</a>
+                                    <a href="/media#event_video" class="hover:opacity-70">Event Videos</a>
+                                    <a href="/media#gallery" class="hover:opacity-70">Gallery</a>
+                                    <a href="/media#behind_the_scenes" class="hover:opacity-70">Behind the Scenes</a>
 
                                 </div>
                             </div>
                         </li>
-                        <li class="group"><a class="nav-link" href="/blog">blog</a>
+                        <li class="group">
+                            <a class="nav-link" href="/blog">blog</a>
+
                             <div
-                                class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 ">
+                                class="absolute left-0 top-full w-full bg-black/95 border-t border-gray-800 opacity-70 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+
                                 <div class="max-w-6xl mx-auto px-6 py-6 flex items-start gap-10 text-white">
-                                    <a href="/why-us" class="hover:opacity-70">All Articles</a>
-                                    <a href="/services" class="hover:opacity-70">Event Gruides</a>
-                                    <a href="#" class="hover:opacity-70">LED Knowledge</a>
-                                    <a href="#" class="hover:opacity-70">Production Tips</a>
+
+                                    <a href="{{ route('blog') }}" class="hover:opacity-70">
+                                        All Articles
+                                    </a>
+
+                                    <a href="{{ route('blog', ['type' => 'Event Guides']) }}"
+                                        class="hover:opacity-70">
+                                        Event Guides
+                                    </a>
+
+                                    <a href="{{ route('blog', ['type' => 'LED Knowledge']) }}"
+                                        class="hover:opacity-70">
+                                        LED Knowledge
+                                    </a>
+
+                                    <a href="{{ route('blog', ['type' => 'Production Tips']) }}"
+                                        class="hover:opacity-70">
+                                        Production Tips
+                                    </a>
+
                                 </div>
                             </div>
                         </li>
@@ -268,35 +336,44 @@
                         </li>
                     </ul>
                     <!-- RIGHT -->
-                    <div class="text-white font-bold">
-                        <div class="flex items-center gap-4 text-black">
+                    <div class="flex items-center gap-4 text-black">
+                        @foreach ($contact as $item)
+                            @if ($item->key_name === 'youtube')
+                                <a href="{{ $item->value_en }}"
+                                    class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                    <i class="fa-brands fa-square-youtube text-sm"></i>
+                                </a>
+                            @endif
 
-                            <a href="#"
-                                class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                                <i class="fa-brands fa-square-youtube text-sm"></i>
-                            </a>
+                            @if ($item->key_name === 'facebook')
+                                <a href="{{ $item->value_en }}"
+                                    class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                    <i class="fa-brands fa-facebook-f text-sm"></i>
+                                </a>
+                            @endif
 
-                            <a href="#"
-                                class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                                <i class="fa-brands fa-facebook-f text-sm"></i>
-                            </a>
+                            @if ($item->key_name === 'tiktok')
+                                <a href="{{ $item->value_en }}"
+                                    class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                    <i class="fa-brands fa-tiktok text-sm"></i>
+                                </a>
+                            @endif
 
-                            <a href="#"
-                                class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                                <i class="fa-brands fa-tiktok text-sm"></i>
-                            </a>
+                            @if ($item->key_name === 'instagram')
+                                <a href="{{ $item->value_en }}"
+                                    class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                    <i class="fa-brands fa-instagram text-sm"></i>
+                                </a>
+                            @endif
 
-                            <a href="#"
-                                class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                                <i class="fa-brands fa-instagram text-sm"></i>
-                            </a>
+                            @if ($item->key_name === 'telegram')
+                                <a href="{{ $item->value_en }}"
+                                    class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
+                                    <i class="fa-brands fa-telegram text-sm"></i>
+                                </a>
+                            @endif
+                        @endforeach
 
-                            <a href="#"
-                                class="w-7 h-7 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 transition">
-                                <i class="fa-brands fa-telegram text-sm"></i>
-                            </a>
-
-                        </div>
                     </div>
                 </div>
             </div>
@@ -342,15 +419,15 @@
 
     // FIX: ensure links always scroll correctly
     document.querySelectorAll('#mobileMenu a').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function() {
 
             const href = this.getAttribute('href');
 
             closeMenu();
 
-            // If it's anchor link (#section)
-            if (href && href.includes('#')) {
-                const id = href.split('#')[1];
+            // ONLY handle hash links
+            if (href && href.startsWith('#')) {
+                const id = href.replace('#', '');
 
                 setTimeout(() => {
                     const target = document.getElementById(id);
@@ -362,6 +439,8 @@
                     }
                 }, 150);
             }
+
+            // IMPORTANT: do NOT block normal routes like /blog?type=
         });
     });
 </script>
