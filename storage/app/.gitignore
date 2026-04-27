@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 # *
 # !private/
 # # !public/
 # !.gitignore
+=======
+*
+!private/
+!public/
+!.gitignore
+>>>>>>> 819e643 (testing)

@@ -9,8 +9,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+=======
+
+    
+>>>>>>> 819e643 (testing)
     @stack('styles')
 </head>
 <body class="h-full bg-[#0c0c14] text-gray-100 antialiased font-sans">
@@ -86,4 +91,8 @@
     });
 </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 819e643 (testing)

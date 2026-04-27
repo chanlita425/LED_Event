@@ -38,6 +38,7 @@ return [
             'report' => false,
         ],
 
+<<<<<<< HEAD
         // 'public' => [
         //     'driver' => 'local',
         //     'root' => storage_path('../public/storage'),
@@ -57,6 +58,9 @@ return [
 
         // Custom disk — used by Why, About, and other content uploads
         'custom' => [
+=======
+        'public' => [
+>>>>>>> 819e643 (testing)
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
